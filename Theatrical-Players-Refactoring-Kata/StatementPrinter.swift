@@ -17,7 +17,10 @@ class StatementPrinter {
             switch (play.type) {
             case "tragedy" :
                     thisAmount = 40000
-                    thisAmount += costFor(audienceSize: performance.audience)
+                    if (performance.audience > 30) {
+                        thisAmount += 1000 * (performance.audience - 30)
+                    }
+                
             case "comedy" :
                     thisAmount = 30000
                     if (performance.audience > 20) {
@@ -44,15 +47,6 @@ class StatementPrinter {
         result += "Amount owed is \(frmt.string(for: NSNumber(value: Double(totalAmount / 100)))!)\n"
         result += "You earned \(volumeCredits) credits\n"
         return result
-    }
-}
-
-private func costFor(audienceSize: Int) -> Int {
-    switch audienceSize {
-        case 30...: return 1000 * (audienceSize - 30)
-        case 20: return 30000
-        case 10: return 3000
-        default: return 0
     }
 }
 
