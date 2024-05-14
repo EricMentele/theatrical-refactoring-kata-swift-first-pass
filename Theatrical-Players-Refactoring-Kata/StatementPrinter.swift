@@ -50,6 +50,6 @@ class StatementPrinter {
     }
 }
 
-enum UnknownTypeError: Error {
+enum UnknownTypeError: Error, Equatable {
     case unknownTypeError(String)
 }
