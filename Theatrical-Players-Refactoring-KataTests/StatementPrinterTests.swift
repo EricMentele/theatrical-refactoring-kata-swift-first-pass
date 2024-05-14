@@ -3,7 +3,7 @@ import XCTest
 @testable import Theatrical_Players_Refactoring_Kata
 
 class StatementPrinterTests: XCTestCase {
-    func test_exampleStatement() throws {
+    func test_generateStatement_producesStatmentForKnownPlays() throws {
         
         let expected = """
             Statement for BigCo
@@ -35,7 +35,7 @@ class StatementPrinterTests: XCTestCase {
         XCTAssertEqual(result, expected)
     }
     
-    func test_statementWithNewPlayTypes() {
+    func test_generateStatement_throwsErrorOnNewPlayTypes() {
         let plays = [
             "henry-v": Play(name: "Henry V", type: "history"),
             "as-like": Play(name: "As You Like It", type: "pastoral")
