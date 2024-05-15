@@ -9,10 +9,7 @@ class StatementPrinter {
         frmt.locale = Locale(identifier: "en_US")
         
         for performance in invoice.performances {
-            guard let play = plays[performance.playID] else {
-                throw UnknownTypeError.unknownTypeError("unknown play")
-            }
-            
+            let play = try play(for: performance.playID)
             let costOfPerformance = try amountFor(performance: performance, genre: play.genre)
             
             // add volume credits
@@ -30,6 +27,13 @@ class StatementPrinter {
         result += "Amount owed is \(frmt.string(for: NSNumber(value: Double(totalAmount / 100)))!)\n"
         result += "You earned \(volumeCredits) credits\n"
         return result
+        
+        func play(for performanceID: String) throws -> Play {
+            guard let result = plays[performanceID] else {
+                throw UnknownTypeError.unknownTypeError("unknown play")
+            }
+            return result
+        }
     }
     
     private func amountFor(performance: Performance, genre: Play.Genre) throws -> Int {
