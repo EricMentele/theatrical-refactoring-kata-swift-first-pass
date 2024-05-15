@@ -9,7 +9,7 @@ class StatementPrinter {
         frmt.locale = Locale(identifier: "en_US")
         
         for performance in invoice.performances {
-            let costOfPerformance = try amountFor(performance: performance, genre: try play(for: performance.playID).genre)
+            let costOfPerformance = try amountFor(performance: performance)
             
             // add volume credits
             volumeCredits += max(performance.audience - 30, 0)
@@ -34,7 +34,7 @@ class StatementPrinter {
             return result
         }
         
-        func amountFor(performance: Performance, genre: Play.Genre) throws -> Int {
+        func amountFor(performance: Performance) throws -> Int {
             var result = 0
             
             switch(try play(for: performance.playID).genre) {
@@ -51,7 +51,7 @@ class StatementPrinter {
                 }
                 result += 300 * performance.audience
             case .unknown:
-                throw UnknownTypeError.unknownTypeError("unknown type: \(genre)")
+                throw UnknownTypeError.unknownTypeError("unknown type: \(try play(for: performance.playID).genre)")
             }
             
             return result
