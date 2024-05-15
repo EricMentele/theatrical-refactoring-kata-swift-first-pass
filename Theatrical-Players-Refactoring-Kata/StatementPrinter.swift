@@ -9,12 +9,7 @@ class StatementPrinter {
         frmt.locale = Locale(identifier: "en_US")
         
         for performance in invoice.performances {
-            // add volume credits
-            volumeCredits += max(performance.audience - 30, 0)
-            // add extra credit for every ten comedy attendees
-            if (.comedy == (try? play(for: performance.playID).genre)) {
-                volumeCredits += Int(round(Double(performance.audience / 5)))
-            }
+            volumeCredits += volumeCreditsFor(performance)
             
             // print line for this order
             result += "  \(try play(for: performance.playID).name): \(frmt.string(for: NSNumber(value: Double((try amountFor(performance: performance) / 100))))!) (\(performance.audience) seats)\n"
@@ -24,6 +19,16 @@ class StatementPrinter {
         result += "Amount owed is \(frmt.string(for: NSNumber(value: Double(totalAmount / 100)))!)\n"
         result += "You earned \(volumeCredits) credits\n"
         return result
+        
+        func volumeCreditsFor(_ performance: Performance) -> Int {
+            var volumeCredits = 0
+            volumeCredits += max(performance.audience - 30, 0)
+
+            if (.comedy == (try? play(for: performance.playID).genre)) {
+                volumeCredits += Int(round(Double(performance.audience / 5)))
+            }
+            return volumeCredits
+        }
         
         func play(for performanceID: String) throws -> Play {
             guard let result = plays[performanceID] else {
