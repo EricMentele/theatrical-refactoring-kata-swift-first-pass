@@ -21,13 +21,13 @@ class StatementPrinter {
         return result
         
         func volumeCreditsFor(_ performance: Performance) -> Int {
-            var volumeCredits = 0
-            volumeCredits += max(performance.audience - 30, 0)
+            var result = 0
+            result += max(performance.audience - 30, 0)
 
             if (.comedy == (try? play(for: performance.playID).genre)) {
-                volumeCredits += Int(round(Double(performance.audience / 5)))
+                result += Int(round(Double(performance.audience / 5)))
             }
-            return volumeCredits
+            return result
         }
         
         func play(for performanceID: String) throws -> Play {
