@@ -9,18 +9,17 @@ class StatementPrinter {
         frmt.locale = Locale(identifier: "en_US")
         
         for performance in invoice.performances {
-            let play = try play(for: performance.playID)
-            let costOfPerformance = try amountFor(performance: performance, genre: play.genre)
+            let costOfPerformance = try amountFor(performance: performance, genre: try play(for: performance.playID).genre)
             
             // add volume credits
             volumeCredits += max(performance.audience - 30, 0)
             // add extra credit for every ten comedy attendees
-            if (.comedy == play.genre) {
+            if (.comedy == (try? play(for: performance.playID).genre)) {
                 volumeCredits += Int(round(Double(performance.audience / 5)))
             }
             
             // print line for this order
-            result += "  \(play.name): \(frmt.string(for: NSNumber(value: Double((costOfPerformance / 100))))!) (\(performance.audience) seats)\n"
+            result += "  \(try play(for: performance.playID).name): \(frmt.string(for: NSNumber(value: Double((costOfPerformance / 100))))!) (\(performance.audience) seats)\n"
             
             totalAmount += costOfPerformance
         }
@@ -34,29 +33,29 @@ class StatementPrinter {
             }
             return result
         }
-    }
-    
-    private func amountFor(performance: Performance, genre: Play.Genre) throws -> Int {
-        var result = 0
         
-        switch(genre) {
-        case .tragedy:
-            result = 40000
-            if (performance.audience > 30) {
-                result += 1000 * (performance.audience - 30)
+        func amountFor(performance: Performance, genre: Play.Genre) throws -> Int {
+            var result = 0
+            
+            switch(genre) {
+            case .tragedy:
+                result = 40000
+                if (performance.audience > 30) {
+                    result += 1000 * (performance.audience - 30)
+                }
+                
+            case .comedy:
+                result = 30000
+                if (performance.audience > 20) {
+                    result += 10000 + 500 * (performance.audience - 20)
+                }
+                result += 300 * performance.audience
+            case .unknown:
+                throw UnknownTypeError.unknownTypeError("unknown type: \(genre)")
             }
             
-        case .comedy:
-            result = 30000
-            if (performance.audience > 20) {
-                result += 10000 + 500 * (performance.audience - 20)
-            }
-            result += 300 * performance.audience
-        case .unknown:
-            throw UnknownTypeError.unknownTypeError("unknown type: \(genre)")
+            return result
         }
-        
-        return result
     }
 }
 
