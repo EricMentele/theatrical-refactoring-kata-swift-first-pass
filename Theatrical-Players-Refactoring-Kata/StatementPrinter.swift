@@ -9,28 +9,11 @@ class StatementPrinter {
         frmt.locale = Locale(identifier: "en_US")
         
         for performance in invoice.performances {
-            var thisAmount = 0
             guard let play = plays[performance.playID] else {
                 throw UnknownTypeError.unknownTypeError("unknown play")
             }
             
-            switch (play.genre) {
-            case .tragedy :
-                    thisAmount = 40000
-                    if (performance.audience > 30) {
-                        thisAmount += 1000 * (performance.audience - 30)
-                    }
-                
-            case .comedy :
-                    thisAmount = 30000
-                    if (performance.audience > 20) {
-                        thisAmount += 10000 + 500 * (performance.audience - 20)
-                    }
-                    thisAmount += 300 * performance.audience
-            
-            default : 
-                throw UnknownTypeError.unknownTypeError("unknown type: \(play.genre)")
-            }
+            let costOfPerformance = try amountFor(performance: performance, genre: play.genre)
             
             // add volume credits
             volumeCredits += max(performance.audience - 30, 0)
@@ -40,13 +23,36 @@ class StatementPrinter {
             }
             
             // print line for this order
-            result += "  \(play.name): \(frmt.string(for: NSNumber(value: Double((thisAmount / 100))))!) (\(performance.audience) seats)\n"
+            result += "  \(play.name): \(frmt.string(for: NSNumber(value: Double((costOfPerformance / 100))))!) (\(performance.audience) seats)\n"
             
-            totalAmount += thisAmount
+            totalAmount += costOfPerformance
         }
         result += "Amount owed is \(frmt.string(for: NSNumber(value: Double(totalAmount / 100)))!)\n"
         result += "You earned \(volumeCredits) credits\n"
         return result
+    }
+    
+    private func amountFor(performance: Performance, genre: Play.Genre) throws -> Int {
+        var thisAmount = 0
+        
+        switch(genre) {
+        case .tragedy:
+            thisAmount = 40000
+            if (performance.audience > 30) {
+                thisAmount += 1000 * (performance.audience - 30)
+            }
+            
+        case .comedy:
+            thisAmount = 30000
+            if (performance.audience > 20) {
+                thisAmount += 10000 + 500 * (performance.audience - 20)
+            }
+            thisAmount += 300 * performance.audience
+        case .unknown:
+            throw UnknownTypeError.unknownTypeError("unknown type: \(genre)")
+        }
+        
+        return thisAmount
     }
 }
 
