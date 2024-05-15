@@ -14,14 +14,14 @@ class StatementPrinter {
                 throw UnknownTypeError.unknownTypeError("unknown play")
             }
             
-            switch (play.type) {
-            case "tragedy" :
+            switch (play.genre) {
+            case .tragedy :
                     thisAmount = 40000
                     if (performance.audience > 30) {
                         thisAmount += 1000 * (performance.audience - 30)
                     }
                 
-            case "comedy" :
+            case .comedy :
                     thisAmount = 30000
                     if (performance.audience > 20) {
                         thisAmount += 10000 + 500 * (performance.audience - 20)
@@ -29,13 +29,13 @@ class StatementPrinter {
                     thisAmount += 300 * performance.audience
             
             default : 
-                throw UnknownTypeError.unknownTypeError("unknown type: \(play.type)")
+                throw UnknownTypeError.unknownTypeError("unknown type: \(play.genre)")
             }
             
             // add volume credits
             volumeCredits += max(performance.audience - 30, 0)
             // add extra credit for every ten comedy attendees
-            if ("comedy" == play.type) {
+            if (.comedy == play.genre) {
                 volumeCredits += Int(round(Double(performance.audience / 5)))
             }
             
