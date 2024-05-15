@@ -37,7 +37,7 @@ class StatementPrinter {
         func amountFor(performance: Performance, genre: Play.Genre) throws -> Int {
             var result = 0
             
-            switch(genre) {
+            switch(try play(for: performance.playID).genre) {
             case .tragedy:
                 result = 40000
                 if (performance.audience > 30) {
