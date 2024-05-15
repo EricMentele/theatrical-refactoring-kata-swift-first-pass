@@ -9,8 +9,6 @@ class StatementPrinter {
         frmt.locale = Locale(identifier: "en_US")
         
         for performance in invoice.performances {
-            let costOfPerformance = try amountFor(performance: performance)
-            
             // add volume credits
             volumeCredits += max(performance.audience - 30, 0)
             // add extra credit for every ten comedy attendees
@@ -19,9 +17,9 @@ class StatementPrinter {
             }
             
             // print line for this order
-            result += "  \(try play(for: performance.playID).name): \(frmt.string(for: NSNumber(value: Double((costOfPerformance / 100))))!) (\(performance.audience) seats)\n"
+            result += "  \(try play(for: performance.playID).name): \(frmt.string(for: NSNumber(value: Double((try amountFor(performance: performance) / 100))))!) (\(performance.audience) seats)\n"
             
-            totalAmount += costOfPerformance
+            totalAmount += try amountFor(performance: performance)
         }
         result += "Amount owed is \(frmt.string(for: NSNumber(value: Double(totalAmount / 100)))!)\n"
         result += "You earned \(volumeCredits) credits\n"
