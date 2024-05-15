@@ -4,19 +4,17 @@ class StatementPrinter {
         var volumeCredits = 0
         var result = "Statement for \(invoice.customer)\n"
         
-        let frmt = NumberFormatter()
-        frmt.numberStyle = .currency
-        frmt.locale = Locale(identifier: "en_US")
+        
         
         for performance in invoice.performances {
             volumeCredits += volumeCreditsFor(performance)
             
             // print line for this order
-            result += "  \(try play(for: performance.playID).name): \(frmt.string(for: NSNumber(value: Double((try amountFor(performance: performance) / 100))))!) (\(performance.audience) seats)\n"
+            result += "  \(try play(for: performance.playID).name): \(usd(amount: (try amountFor(performance: performance)))) (\(performance.audience) seats)\n"
             
             totalAmount += try amountFor(performance: performance)
         }
-        result += "Amount owed is \(frmt.string(for: NSNumber(value: Double(totalAmount / 100)))!)\n"
+        result += "Amount owed is \(usd(amount: totalAmount))\n"
         result += "You earned \(volumeCredits) credits\n"
         return result
         
@@ -28,6 +26,13 @@ class StatementPrinter {
                 result += Int(round(Double(performance.audience / 5)))
             }
             return result
+        }
+        
+        func usd(amount: Int) -> String {
+            let frmt = NumberFormatter()
+            frmt.numberStyle = .currency
+            frmt.locale = Locale(identifier: "en_US")
+            return frmt.string(for: NSNumber(value: Double(amount / 100)))!
         }
         
         func play(for performanceID: String) throws -> Play {
