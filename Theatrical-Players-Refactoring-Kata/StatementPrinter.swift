@@ -7,13 +7,21 @@ class StatementPrinter {
     func generateStatement(_ invoice: Invoice, _ plays: Dictionary<String, Play>) throws -> String {
         let data = StatementData(
             customer: invoice.customer,
-            performances: invoice.performances.map(enrich)
+            performances: try invoice.performances.map(enrich)
         )
         
         return try renderPlainText(data, plays)
         
-        func enrich(_ performance: Performance) -> Performance {
-            let result = performance
+        func enrich(_ performance: Performance) throws -> Performance {
+            var result = performance
+            result.play = try play(for: result.playID)
+            return result
+        }
+        
+        func play(for performanceID: String) throws -> Play {
+            guard let result = plays[performanceID] else {
+                throw UnknownTypeError.unknownTypeError("unknown play")
+            }
             return result
         }
     }
