@@ -9,10 +9,10 @@ class StatementPrinter {
             customer: invoice.customer,
             performances: invoice.performances
         )
-        return try renderPlainText(data, invoice, plays)
+        return try renderPlainText(data, plays)
     }
     
-    private func renderPlainText(_ data: StatementData, _ invoice: Invoice, _ plays: [String : Play]) throws -> String {
+    private func renderPlainText(_ data: StatementData, _ plays: [String : Play]) throws -> String {
         var result = "Statement for \(data.customer)\n"
         
         for performance in data.performances {
