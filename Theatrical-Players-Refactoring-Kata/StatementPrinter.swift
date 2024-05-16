@@ -1,13 +1,14 @@
 class StatementPrinter {
     func generateStatement(_ invoice: Invoice, _ plays: Dictionary<String, Play>) throws -> String {
         var totalAmount = 0
-        var volumeCredits = 0
         var result = "Statement for \(invoice.customer)\n"
         
-        
-        
+        var volumeCredits = 0
         for performance in invoice.performances {
             volumeCredits += volumeCreditsFor(performance)
+        }
+        
+        for performance in invoice.performances {
             
             // print line for this order
             result += "  \(try play(for: performance.playID).name): \(usd(amount: (try amountFor(performance: performance)))) (\(performance.audience) seats)\n"
