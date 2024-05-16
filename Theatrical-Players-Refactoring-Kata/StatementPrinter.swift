@@ -1,17 +1,21 @@
 class StatementPrinter {
     struct StatementData {
-        var customer: String
+        let customer: String
+        let performances: [Performance]
     }
     
     func generateStatement(_ invoice: Invoice, _ plays: Dictionary<String, Play>) throws -> String {
-        let data = StatementData(customer: invoice.customer)
+        let data = StatementData(
+            customer: invoice.customer,
+            performances: invoice.performances
+        )
         return try renderPlainText(data, invoice, plays)
     }
     
     private func renderPlainText(_ data: StatementData, _ invoice: Invoice, _ plays: [String : Play]) throws -> String {
         var result = "Statement for \(data.customer)\n"
         
-        for performance in invoice.performances {
+        for performance in data.performances {
             // print line for this order
             result += "  \(try play(for: performance.playID).name): \(usd(amount: (try amountFor(performance: performance)))) (\(performance.audience) seats)\n"
         }
