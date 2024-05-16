@@ -7,10 +7,7 @@ class StatementPrinter {
             result += "  \(try play(for: performance.playID).name): \(usd(amount: (try amountFor(performance: performance)))) (\(performance.audience) seats)\n"
         }
         
-        var totalAmount = 0
-        for performance in invoice.performances {
-            totalAmount += try amountFor(performance: performance)
-        }
+        var totalAmount = try toBeTotalAmount()
         
         result += "Amount owed is \(usd(amount: totalAmount))\n"
         result += "You earned \(totalVolumeCredits()) credits\n"
@@ -22,6 +19,14 @@ class StatementPrinter {
 
             if (.comedy == (try? play(for: performance.playID).genre)) {
                 result += Int(round(Double(performance.audience / 5)))
+            }
+            return result
+        }
+        
+        func toBeTotalAmount() throws -> Int {
+            var result = 0
+            for performance in invoice.performances {
+                result += try amountFor(performance: performance)
             }
             return result
         }
