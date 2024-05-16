@@ -7,9 +7,15 @@ class StatementPrinter {
     func generateStatement(_ invoice: Invoice, _ plays: Dictionary<String, Play>) throws -> String {
         let data = StatementData(
             customer: invoice.customer,
-            performances: invoice.performances
+            performances: invoice.performances.map(enrich)
         )
+        
         return try renderPlainText(data, plays)
+        
+        func enrich(_ performance: Performance) -> Performance {
+            let result = performance
+            return result
+        }
     }
     
     private func renderPlainText(_ data: StatementData, _ plays: [String : Play]) throws -> String {
