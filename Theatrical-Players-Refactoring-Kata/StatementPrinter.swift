@@ -3,17 +3,14 @@ class StatementPrinter {
         var totalAmount = 0
         var result = "Statement for \(invoice.customer)\n"
         
-        let volumeCredits = totalVolumeCredits()
-        
         for performance in invoice.performances {
-            
             // print line for this order
             result += "  \(try play(for: performance.playID).name): \(usd(amount: (try amountFor(performance: performance)))) (\(performance.audience) seats)\n"
             
             totalAmount += try amountFor(performance: performance)
         }
         result += "Amount owed is \(usd(amount: totalAmount))\n"
-        result += "You earned \(volumeCredits) credits\n"
+        result += "You earned \(totalVolumeCredits()) credits\n"
         return result
         
         func volumeCreditsFor(_ performance: Performance) -> Int {
