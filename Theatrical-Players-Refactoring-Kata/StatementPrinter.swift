@@ -1,5 +1,9 @@
 class StatementPrinter {
     func generateStatement(_ invoice: Invoice, _ plays: Dictionary<String, Play>) throws -> String {
+        try renderPlainText(invoice, plays)
+    }
+    
+    private func renderPlainText(_ invoice: Invoice, _ plays: [String : Play]) throws -> String {
         var result = "Statement for \(invoice.customer)\n"
         
         for performance in invoice.performances {
@@ -14,7 +18,7 @@ class StatementPrinter {
         func volumeCreditsFor(_ performance: Performance) -> Int {
             var result = 0
             result += max(performance.audience - 30, 0)
-
+            
             if (.comedy == (try? play(for: performance.playID).genre)) {
                 result += Int(round(Double(performance.audience / 5)))
             }
