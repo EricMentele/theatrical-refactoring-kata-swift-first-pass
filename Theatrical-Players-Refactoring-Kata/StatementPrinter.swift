@@ -1,9 +1,12 @@
 class StatementPrinter {
+    struct StatementData {}
+    
     func generateStatement(_ invoice: Invoice, _ plays: Dictionary<String, Play>) throws -> String {
-        try renderPlainText(invoice, plays)
+        let data = StatementData()
+        return try renderPlainText(data, invoice, plays)
     }
     
-    private func renderPlainText(_ invoice: Invoice, _ plays: [String : Play]) throws -> String {
+    private func renderPlainText(_ data: StatementData, _ invoice: Invoice, _ plays: [String : Play]) throws -> String {
         var result = "Statement for \(invoice.customer)\n"
         
         for performance in invoice.performances {
