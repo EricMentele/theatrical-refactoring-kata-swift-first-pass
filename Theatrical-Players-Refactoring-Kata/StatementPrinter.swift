@@ -3,10 +3,7 @@ class StatementPrinter {
         var totalAmount = 0
         var result = "Statement for \(invoice.customer)\n"
         
-        var volumeCredits = 0
-        for performance in invoice.performances {
-            volumeCredits += volumeCreditsFor(performance)
-        }
+        let volumeCredits = totalVolumeCredits()
         
         for performance in invoice.performances {
             
@@ -25,6 +22,14 @@ class StatementPrinter {
 
             if (.comedy == (try? play(for: performance.playID).genre)) {
                 result += Int(round(Double(performance.audience / 5)))
+            }
+            return result
+        }
+        
+        func totalVolumeCredits() -> Int {
+            var result = 0
+            for performance in invoice.performances {
+                result += volumeCreditsFor(performance)
             }
             return result
         }
