@@ -6,9 +6,12 @@ class StatementPrinter {
         for performance in invoice.performances {
             // print line for this order
             result += "  \(try play(for: performance.playID).name): \(usd(amount: (try amountFor(performance: performance)))) (\(performance.audience) seats)\n"
-            
+        }
+        
+        for performance in invoice.performances {
             totalAmount += try amountFor(performance: performance)
         }
+        
         result += "Amount owed is \(usd(amount: totalAmount))\n"
         result += "You earned \(totalVolumeCredits()) credits\n"
         return result
