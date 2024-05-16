@@ -36,7 +36,7 @@ class StatementPrinter {
         
         func totalAmount() throws -> Int {
             var result = 0
-            for performance in invoice.performances {
+            for performance in data.performances {
                 result += try amountFor(performance: performance)
             }
             return result
@@ -44,7 +44,7 @@ class StatementPrinter {
         
         func totalVolumeCredits() -> Int {
             var result = 0
-            for performance in invoice.performances {
+            for performance in data.performances {
                 result += volumeCreditsFor(performance)
             }
             return result
