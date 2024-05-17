@@ -38,15 +38,6 @@ class StatementPrinter {
         result += "You earned \(totalVolumeCredits()) credits\n"
         return result
         
-        func volumeCreditsFor(_ performance: Performance) -> Int {
-            var result = 0
-            result += max(performance.audience - 30, 0)
-            
-            if (.comedy == (try? play(for: performance.playID).genre)) {
-                result += Int(round(Double(performance.audience / 5)))
-            }
-            return result
-        }
         
         func totalAmount() throws -> Int {
             var result = 0
@@ -60,6 +51,16 @@ class StatementPrinter {
             var result = 0
             for performance in data.performances {
                 result += volumeCreditsFor(performance)
+            }
+            return result
+        }
+        
+        func volumeCreditsFor(_ performance: Performance) -> Int {
+            var result = 0
+            result += max(performance.audience - 30, 0)
+            
+            if (.comedy == (try? play(for: performance.playID).genre)) {
+                result += Int(round(Double(performance.audience / 5)))
             }
             return result
         }
