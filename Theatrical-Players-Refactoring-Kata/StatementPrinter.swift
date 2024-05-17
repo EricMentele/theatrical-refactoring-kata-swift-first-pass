@@ -18,8 +18,8 @@ class StatementPrinter {
             return result
         }
         
-        func play(for performanceID: String) throws -> Play {
-            guard let result = plays[performanceID] else {
+        func play(for playId: String) throws -> Play {
+            guard let result = plays[playId] else {
                 throw UnknownTypeError.unknownTypeError("unknown play")
             }
             return result
