@@ -8,15 +8,19 @@ class StatementPrinter {
     }
     
     func generateStatement(_ invoice: Invoice, _ plays: Dictionary<String, Play>) throws -> String {
-        var data = StatementData(
-            customer: invoice.customer,
-            performances: try invoice.performances.map(enrich),
-            totalAmount: nil
-        )
-        data.totalAmount = totalAmount(from: data)
-        data.totalVolumeCredits = totalVolumeCredits(from: data)
+        return try renderPlainText(generateStatementData(invoice, plays))
         
-        return try renderPlainText(data)
+        func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>) throws -> StatementData {
+            var result = StatementData(
+                customer: invoice.customer,
+                performances: try invoice.performances.map(enrich),
+                totalAmount: nil
+            )
+            result.totalAmount = totalAmount(from: result)
+            result.totalVolumeCredits = totalVolumeCredits(from: result)
+            
+            return result
+        }
         
         func enrich(_ performance: Performance) throws -> Performance {
             var result = performance
