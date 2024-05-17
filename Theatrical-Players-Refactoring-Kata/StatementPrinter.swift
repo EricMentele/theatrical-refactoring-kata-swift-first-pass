@@ -4,6 +4,7 @@ class StatementPrinter {
         let performances: [Performance]
         
         var totalAmount: Int?
+        var totalVolumeCredits: Int?
     }
     
     func generateStatement(_ invoice: Invoice, _ plays: Dictionary<String, Play>) throws -> String {
@@ -13,6 +14,7 @@ class StatementPrinter {
             totalAmount: nil
         )
         data.totalAmount = totalAmount()
+        data.totalVolumeCredits = totalVolumeCredits()
         
         return try renderPlainText(data, plays)
         
@@ -25,16 +27,8 @@ class StatementPrinter {
             }
             
             result += "Amount owed is \(usd(amount: data.totalAmount!))\n"
-            result += "You earned \(totalVolumeCredits()) credits\n"
+            result += "You earned \(data.totalVolumeCredits!) credits\n"
             return result
-            
-            func totalVolumeCredits() -> Int {
-                var result = 0
-                for performance in data.performances {
-                    result += performance.volumeCredits!
-                }
-                return result
-            }
             
             func usd(amount: Int) -> String {
                 let frmt = NumberFormatter()
@@ -78,6 +72,14 @@ class StatementPrinter {
                 throw UnknownTypeError.unknownTypeError("unknown type: \(performance.play!.genre)")
             }
             
+            return result
+        }
+        
+        func totalVolumeCredits() -> Int {
+            var result = 0
+            for performance in data.performances {
+                result += performance.volumeCredits!
+            }
             return result
         }
         
