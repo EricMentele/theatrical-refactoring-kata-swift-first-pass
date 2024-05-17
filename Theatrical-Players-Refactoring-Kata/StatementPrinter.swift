@@ -2,15 +2,47 @@ class StatementPrinter {
     struct StatementData {
         let customer: String
         let performances: [Performance]
+        
+        var totalAmount: Int?
     }
     
     func generateStatement(_ invoice: Invoice, _ plays: Dictionary<String, Play>) throws -> String {
-        let data = StatementData(
+        var data = StatementData(
             customer: invoice.customer,
-            performances: try invoice.performances.map(enrich)
+            performances: try invoice.performances.map(enrich),
+            totalAmount: nil
         )
+        data.totalAmount = totalAmount()
         
         return try renderPlainText(data, plays)
+        
+        func renderPlainText(_ data: StatementData, _ plays: [String : Play]) throws -> String {
+            var result = "Statement for \(data.customer)\n"
+            
+            for performance in data.performances {
+                // print line for this order
+                result += "  \(performance.play!.name): \(usd(amount: performance.cost!)) (\(performance.audience) seats)\n"
+            }
+            
+            result += "Amount owed is \(usd(amount: data.totalAmount!))\n"
+            result += "You earned \(totalVolumeCredits()) credits\n"
+            return result
+            
+            func totalVolumeCredits() -> Int {
+                var result = 0
+                for performance in data.performances {
+                    result += performance.volumeCredits!
+                }
+                return result
+            }
+            
+            func usd(amount: Int) -> String {
+                let frmt = NumberFormatter()
+                frmt.numberStyle = .currency
+                frmt.locale = Locale(identifier: "en_US")
+                return frmt.string(for: NSNumber(value: Double(amount / 100)))!
+            }
+        }
         
         func enrich(_ performance: Performance) throws -> Performance {
             var result = performance
@@ -58,42 +90,13 @@ class StatementPrinter {
             }
             return result
         }
-    }
-    
-    private func renderPlainText(_ data: StatementData, _ plays: [String : Play]) throws -> String {
-        var result = "Statement for \(data.customer)\n"
         
-        for performance in data.performances {
-            // print line for this order
-            result += "  \(performance.play!.name): \(usd(amount: performance.cost!)) (\(performance.audience) seats)\n"
-        }
-        
-        result += "Amount owed is \(usd(amount: try totalAmount()))\n"
-        result += "You earned \(totalVolumeCredits()) credits\n"
-        return result
-        
-        
-        func totalAmount() throws -> Int {
+        func totalAmount() -> Int {
             var result = 0
             for performance in data.performances {
                 result += performance.cost!
             }
             return result
-        }
-        
-        func totalVolumeCredits() -> Int {
-            var result = 0
-            for performance in data.performances {
-                result += performance.volumeCredits!
-            }
-            return result
-        }
-        
-        func usd(amount: Int) -> String {
-            let frmt = NumberFormatter()
-            frmt.numberStyle = .currency
-            frmt.locale = Locale(identifier: "en_US")
-            return frmt.string(for: NSNumber(value: Double(amount / 100)))!
         }
     }
 }
