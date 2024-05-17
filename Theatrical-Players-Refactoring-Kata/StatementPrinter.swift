@@ -15,6 +15,7 @@ class StatementPrinter {
         func enrich(_ performance: Performance) throws -> Performance {
             var result = performance
             result.play = try play(for: result.playID)
+            result.cost = try amountFor(performance: result)
             return result
         }
         
@@ -24,6 +25,28 @@ class StatementPrinter {
             }
             return result
         }
+        
+        func amountFor(performance: Performance) throws -> Int {
+            var result = 0
+            
+            switch(performance.play!.genre) {
+            case .tragedy:
+                result = 40000
+                if (performance.audience > 30) {
+                    result += 1000 * (performance.audience - 30)
+                }
+            case .comedy:
+                result = 30000
+                if (performance.audience > 20) {
+                    result += 10000 + 500 * (performance.audience - 20)
+                }
+                result += 300 * performance.audience
+            case .unknown:
+                throw UnknownTypeError.unknownTypeError("unknown type: \(performance.play!.genre)")
+            }
+            
+            return result
+        }
     }
     
     private func renderPlainText(_ data: StatementData, _ plays: [String : Play]) throws -> String {
@@ -31,7 +54,7 @@ class StatementPrinter {
         
         for performance in data.performances {
             // print line for this order
-            result += "  \(performance.play!.name): \(usd(amount: (try amountFor(performance: performance)))) (\(performance.audience) seats)\n"
+            result += "  \(performance.play!.name): \(usd(amount: performance.cost!)) (\(performance.audience) seats)\n"
         }
         
         result += "Amount owed is \(usd(amount: try totalAmount()))\n"
@@ -42,7 +65,7 @@ class StatementPrinter {
         func totalAmount() throws -> Int {
             var result = 0
             for performance in data.performances {
-                result += try amountFor(performance: performance)
+                result += performance.cost!
             }
             return result
         }
@@ -70,29 +93,6 @@ class StatementPrinter {
             frmt.numberStyle = .currency
             frmt.locale = Locale(identifier: "en_US")
             return frmt.string(for: NSNumber(value: Double(amount / 100)))!
-        }
-        
-        func amountFor(performance: Performance) throws -> Int {
-            var result = 0
-            
-            switch(performance.play!.genre) {
-            case .tragedy:
-                result = 40000
-                if (performance.audience > 30) {
-                    result += 1000 * (performance.audience - 30)
-                }
-                
-            case .comedy:
-                result = 30000
-                if (performance.audience > 20) {
-                    result += 10000 + 500 * (performance.audience - 20)
-                }
-                result += 300 * performance.audience
-            case .unknown:
-                throw UnknownTypeError.unknownTypeError("unknown type: \(performance.play!.genre)")
-            }
-            
-            return result
         }
     }
 }
