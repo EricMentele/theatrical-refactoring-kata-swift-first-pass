@@ -4,4 +4,5 @@ struct Performance {
     
     var play: Play?
     var cost: Int?
+    var volumeCredits: Int?
 }
