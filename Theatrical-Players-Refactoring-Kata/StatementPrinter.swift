@@ -16,27 +16,7 @@ class StatementPrinter {
         data.totalAmount = totalAmount()
         data.totalVolumeCredits = totalVolumeCredits()
         
-        return try renderPlainText(data, plays)
-        
-        func renderPlainText(_ data: StatementData, _ plays: [String : Play]) throws -> String {
-            var result = "Statement for \(data.customer)\n"
-            
-            for performance in data.performances {
-                // print line for this order
-                result += "  \(performance.play!.name): \(usd(amount: performance.cost!)) (\(performance.audience) seats)\n"
-            }
-            
-            result += "Amount owed is \(usd(amount: data.totalAmount!))\n"
-            result += "You earned \(data.totalVolumeCredits!) credits\n"
-            return result
-            
-            func usd(amount: Int) -> String {
-                let frmt = NumberFormatter()
-                frmt.numberStyle = .currency
-                frmt.locale = Locale(identifier: "en_US")
-                return frmt.string(for: NSNumber(value: Double(amount / 100)))!
-            }
-        }
+        return try renderPlainText(data)
         
         func enrich(_ performance: Performance) throws -> Performance {
             var result = performance
@@ -99,6 +79,26 @@ class StatementPrinter {
                 result += performance.cost!
             }
             return result
+        }
+    }
+    
+    private func renderPlainText(_ data: StatementData) throws -> String {
+        var result = "Statement for \(data.customer)\n"
+        
+        for performance in data.performances {
+            // print line for this order
+            result += "  \(performance.play!.name): \(usd(amount: performance.cost!)) (\(performance.audience) seats)\n"
+        }
+        
+        result += "Amount owed is \(usd(amount: data.totalAmount!))\n"
+        result += "You earned \(data.totalVolumeCredits!) credits\n"
+        return result
+        
+        func usd(amount: Int) -> String {
+            let frmt = NumberFormatter()
+            frmt.numberStyle = .currency
+            frmt.locale = Locale(identifier: "en_US")
+            return frmt.string(for: NSNumber(value: Double(amount / 100)))!
         }
     }
 }
