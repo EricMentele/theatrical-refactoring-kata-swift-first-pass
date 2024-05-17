@@ -12,14 +12,12 @@ class StatementPrinter {
     }
     
     private func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>) throws -> StatementData {
-        var result = StatementData(
+        return StatementData(
             customer: invoice.customer,
             performances: try invoice.performances.map(enrich),
-            totalAmount: totalAmount(from: try invoice.performances.map(enrich))
+            totalAmount: totalAmount(from: try invoice.performances.map(enrich)),
+            totalVolumeCredits: totalVolumeCredits(from: try invoice.performances.map(enrich))
         )
-        result.totalVolumeCredits = totalVolumeCredits(from: result)
-        
-        return result
         
         func enrich(_ performance: Performance) throws -> Performance {
             var result = performance
@@ -58,8 +56,8 @@ class StatementPrinter {
             return result
         }
         
-        func totalVolumeCredits(from data: StatementData) -> Int {
-            data.performances.reduce(0) { $0 + $1.volumeCredits! }
+        func totalVolumeCredits(from performances: [Performance]) -> Int {
+            performances.reduce(0) { $0 + $1.volumeCredits! }
         }
         
         func volumeCreditsFor(_ performance: Performance) -> Int {
