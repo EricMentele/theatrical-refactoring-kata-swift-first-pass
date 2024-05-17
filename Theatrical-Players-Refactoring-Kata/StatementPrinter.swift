@@ -9,18 +9,18 @@ class StatementPrinter {
     
     func generateStatement(_ invoice: Invoice, _ plays: Dictionary<String, Play>) throws -> String {
         return try renderPlainText(generateStatementData(invoice, plays))
+    }
+    
+    private func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>) throws -> StatementData {
+        var result = StatementData(
+            customer: invoice.customer,
+            performances: try invoice.performances.map(enrich),
+            totalAmount: nil
+        )
+        result.totalAmount = totalAmount(from: result)
+        result.totalVolumeCredits = totalVolumeCredits(from: result)
         
-        func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>) throws -> StatementData {
-            var result = StatementData(
-                customer: invoice.customer,
-                performances: try invoice.performances.map(enrich),
-                totalAmount: nil
-            )
-            result.totalAmount = totalAmount(from: result)
-            result.totalVolumeCredits = totalVolumeCredits(from: result)
-            
-            return result
-        }
+        return result
         
         func enrich(_ performance: Performance) throws -> Performance {
             var result = performance
