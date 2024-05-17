@@ -2,9 +2,8 @@ class StatementPrinter {
     struct StatementData {
         let customer: String
         let performances: [Performance]
-        
-        var totalAmount: Int?
-        var totalVolumeCredits: Int?
+        let totalAmount: Int
+        let totalVolumeCredits: Int
     }
     
     func generateStatement(_ invoice: Invoice, _ plays: Dictionary<String, Play>) throws -> String {
@@ -83,8 +82,8 @@ class StatementPrinter {
             result += "  \(performance.play!.name): \(usd(amount: performance.cost!)) (\(performance.audience) seats)\n"
         }
         
-        result += "Amount owed is \(usd(amount: data.totalAmount!))\n"
-        result += "You earned \(data.totalVolumeCredits!) credits\n"
+        result += "Amount owed is \(usd(amount: data.totalAmount))\n"
+        result += "You earned \(data.totalVolumeCredits) credits\n"
         return result
         
         func usd(amount: Int) -> String {
