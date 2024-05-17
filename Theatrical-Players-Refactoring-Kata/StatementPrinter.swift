@@ -14,7 +14,7 @@ class StatementPrinter {
             totalAmount: nil
         )
         data.totalAmount = totalAmount()
-        data.totalVolumeCredits = totalVolumeCredits()
+        data.totalVolumeCredits = totalVolumeCredits(from: data)
         
         return try renderPlainText(data)
         
@@ -55,12 +55,8 @@ class StatementPrinter {
             return result
         }
         
-        func totalVolumeCredits() -> Int {
-            var result = 0
-            for performance in data.performances {
-                result += performance.volumeCredits!
-            }
-            return result
+        func totalVolumeCredits(from data: StatementData) -> Int {
+            data.performances.reduce(0) { $0 + $1.volumeCredits! }
         }
         
         func volumeCreditsFor(_ performance: Performance) -> Int {
