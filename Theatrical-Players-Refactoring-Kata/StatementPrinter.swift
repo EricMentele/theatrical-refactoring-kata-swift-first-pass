@@ -31,7 +31,7 @@ class StatementPrinter {
         
         for performance in data.performances {
             // print line for this order
-            result += "  \(try play(for: performance.playID).name): \(usd(amount: (try amountFor(performance: performance)))) (\(performance.audience) seats)\n"
+            result += "  \(performance.play!.name): \(usd(amount: (try amountFor(performance: performance)))) (\(performance.audience) seats)\n"
         }
         
         result += "Amount owed is \(usd(amount: try totalAmount()))\n"
@@ -59,7 +59,7 @@ class StatementPrinter {
             var result = 0
             result += max(performance.audience - 30, 0)
             
-            if (.comedy == (try? play(for: performance.playID).genre)) {
+            if (.comedy == performance.play!.genre) {
                 result += Int(round(Double(performance.audience / 5)))
             }
             return result
@@ -72,17 +72,10 @@ class StatementPrinter {
             return frmt.string(for: NSNumber(value: Double(amount / 100)))!
         }
         
-        func play(for performanceID: String) throws -> Play {
-            guard let result = plays[performanceID] else {
-                throw UnknownTypeError.unknownTypeError("unknown play")
-            }
-            return result
-        }
-        
         func amountFor(performance: Performance) throws -> Int {
             var result = 0
             
-            switch(try play(for: performance.playID).genre) {
+            switch(performance.play!.genre) {
             case .tragedy:
                 result = 40000
                 if (performance.audience > 30) {
@@ -96,7 +89,7 @@ class StatementPrinter {
                 }
                 result += 300 * performance.audience
             case .unknown:
-                throw UnknownTypeError.unknownTypeError("unknown type: \(try play(for: performance.playID).genre)")
+                throw UnknownTypeError.unknownTypeError("unknown type: \(performance.play!.genre)")
             }
             
             return result
