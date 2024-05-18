@@ -21,7 +21,7 @@ class StatementPrinter {
         func enrich(_ performance: Performance) throws -> Performance {
             var result = performance
             result.play = try play(for: result.playID)
-            result.cost = try amountFor(performance: result)
+            result.cost = try costFor(result.play!.genre, attendanceCount: result.audience)
             result.volumeCredits = volumeCreditsFor(result.play!.genre, attendanceCount: result.audience)
             return result
         }
@@ -33,23 +33,23 @@ class StatementPrinter {
             return result
         }
         
-        func amountFor(performance: Performance) throws -> Int {
+        func costFor(_ genre: Play.Genre, attendanceCount: Int) throws -> Int {
             var result = 0
             
-            switch(performance.play!.genre) {
+            switch(genre) {
             case .tragedy:
                 result = 40000
-                if (performance.audience > 30) {
-                    result += 1000 * (performance.audience - 30)
+                if (attendanceCount > 30) {
+                    result += 1000 * (attendanceCount - 30)
                 }
             case .comedy:
                 result = 30000
-                if (performance.audience > 20) {
-                    result += 10000 + 500 * (performance.audience - 20)
+                if (attendanceCount > 20) {
+                    result += 10000 + 500 * (attendanceCount - 20)
                 }
-                result += 300 * performance.audience
+                result += 300 * attendanceCount
             case .unknown:
-                throw UnknownTypeError.unknownTypeError("unknown type: \(performance.play!.genre)")
+                throw UnknownTypeError.unknownTypeError("unknown type: \(genre)")
             }
             
             return result
