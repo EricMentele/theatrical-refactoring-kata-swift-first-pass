@@ -22,7 +22,7 @@ class StatementPrinter {
             var result = performance
             result.play = try play(for: result.playID)
             result.cost = try amountFor(performance: result)
-            result.volumeCredits = volumeCreditsFor(result)
+            result.volumeCredits = volumeCreditsFor(result.play!.genre, attendanceCount: result.audience)
             return result
         }
         
@@ -59,12 +59,12 @@ class StatementPrinter {
             performances.reduce(0) { $0 + $1.volumeCredits! }
         }
         
-        func volumeCreditsFor(_ performance: Performance) -> Int {
+        func volumeCreditsFor(_ genre: Play.Genre, attendanceCount: Int) -> Int {
             var result = 0
-            result += max(performance.audience - 30, 0)
+            result += max(attendanceCount - 30, 0)
             
-            if (.comedy == performance.play!.genre) {
-                result += Int(round(Double(performance.audience / 5)))
+            if (.comedy == genre) {
+                result += Int(round(Double(attendanceCount / 5)))
             }
             return result
         }
