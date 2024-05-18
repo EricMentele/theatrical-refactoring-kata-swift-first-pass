@@ -14,7 +14,7 @@ class StatementPrinter {
         return StatementData(
             customer: invoice.customer,
             performances: try invoice.performances.map(enrich),
-            totalAmount: totalAmount(from: try invoice.performances.map(enrich)),
+            totalAmount: totalOf(try invoice.performances.map(enrich).map { $0.cost! }),
             totalVolumeCredits: totalVolumeCredits(from: try invoice.performances.map(enrich))
         )
         
@@ -69,8 +69,8 @@ class StatementPrinter {
             return result
         }
         
-        func totalAmount(from performances: [Performance]) -> Int {
-            performances.reduce(0) { $0 + $1.cost! }
+        func totalOf(_ amounts: [Int]) -> Int {
+            amounts.reduce(0) { $0 + $1 }
         }
     }
     
