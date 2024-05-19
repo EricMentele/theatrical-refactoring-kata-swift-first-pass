@@ -15,7 +15,7 @@ class StatementPrinter {
             customer: invoice.customer,
             performances: try invoice.performances.map(enrich),
             totalAmount: totalOf(try invoice.performances.map(enrich).map { $0.charge.cost }),
-            totalVolumeCredits: totalOf(try invoice.performances.map(enrich).map { $0.volumeCredits! })
+            totalVolumeCredits: totalOf(try invoice.performances.map(enrich).map { $0.charge.volumeCredits })
         )
         
         func enrich(_ performance: Performance) throws -> Performance {
