@@ -28,7 +28,6 @@ class StatementPrinter {
                 volumeCredits: volumeCreditsFor(try play(for: result.playID).genre, attendanceCount: result.audience)
             )
             
-            result.volumeCredits = volumeCreditsFor(try play(for: result.playID).genre, attendanceCount: result.audience)
             return result
         }
         
