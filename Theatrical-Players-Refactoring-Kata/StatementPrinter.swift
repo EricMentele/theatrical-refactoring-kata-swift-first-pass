@@ -20,15 +20,19 @@ class StatementPrinter {
         
         func enrich(_ performance: Performance) throws -> Performance {
             var result = performance
-            result.charge = .init(
-                playName: try play(for: result.playID).name,
-                cost: try costFor(
-                    try play(for: result.playID).genre,
-                    attendanceCount: result.audience),
-                volumeCredits: volumeCreditsFor(try play(for: result.playID).genre, attendanceCount: result.audience)
-            )
+            result.charge = try charge(result)
             
             return result
+        }
+        
+        func charge(_ performance: Performance) throws -> PerformanceCharge {
+            .init(
+                playName: try play(for: performance.playID).name,
+                cost: try costFor(
+                    try play(for: performance.playID).genre,
+                    attendanceCount: performance.audience),
+                volumeCredits: volumeCreditsFor(try play(for: performance.playID).genre, attendanceCount: performance.audience)
+            )
         }
         
         func play(for playId: String) throws -> Play {
