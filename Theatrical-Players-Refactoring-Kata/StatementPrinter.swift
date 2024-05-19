@@ -14,7 +14,7 @@ class StatementPrinter {
         return StatementData(
             customer: invoice.customer,
             performances: try invoice.performances.map(enrich),
-            totalAmount: totalOf(try invoice.performances.map(enrich).map { $0.cost! }),
+            totalAmount: totalOf(try invoice.performances.map(enrich).map { $0.charge.cost }),
             totalVolumeCredits: totalOf(try invoice.performances.map(enrich).map { $0.volumeCredits! })
         )
         
@@ -25,7 +25,6 @@ class StatementPrinter {
                 cost: try costFor(try play(for: result.playID).genre, attendanceCount: result.audience)
             )
             
-            result.cost = try costFor(try play(for: result.playID).genre, attendanceCount: result.audience)
             result.volumeCredits = volumeCreditsFor(try play(for: result.playID).genre, attendanceCount: result.audience)
             return result
         }
