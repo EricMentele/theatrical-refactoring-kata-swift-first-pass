@@ -3,7 +3,7 @@ struct Performance {
     let audience: Int
     
     var charge: PerformanceCharge
-    var play: Play?
+    
     var cost: Int?
     var volumeCredits: Int?
     
@@ -11,7 +11,6 @@ struct Performance {
         self.playID = playID
         self.audience = audience
         self.charge = charge
-        self.play = play
         self.cost = cost
         self.volumeCredits = volumeCredits
     }
