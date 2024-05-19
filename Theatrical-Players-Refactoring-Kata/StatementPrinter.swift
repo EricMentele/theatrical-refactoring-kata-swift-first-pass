@@ -1,7 +1,7 @@
 class StatementPrinter {
     struct StatementData {
         let customer: String
-        let performances: [Performance]
+        let performanceCharges: [PerformanceCharge]
         let totalAmount: Int
         let totalVolumeCredits: Int
     }
@@ -13,17 +13,10 @@ class StatementPrinter {
     private func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>) throws -> StatementData {
         return StatementData(
             customer: invoice.customer,
-            performances: try invoice.performances.map(enrich),
-            totalAmount: totalOf(try invoice.performances.map(enrich).map { $0.charge.cost }),
-            totalVolumeCredits: totalOf(try invoice.performances.map(enrich).map { $0.charge.volumeCredits })
+            performanceCharges: try invoice.performances.map(charge),
+            totalAmount: totalOf(try invoice.performances.map(charge).map { $0.cost }),
+            totalVolumeCredits: totalOf(try invoice.performances.map(charge).map { $0.volumeCredits })
         )
-        
-        func enrich(_ performance: Performance) throws -> Performance {
-            var result = performance
-            result.charge = try charge(result)
-            
-            return result
-        }
         
         func charge(_ performance: Performance) throws -> PerformanceCharge {
             .init(
@@ -83,9 +76,9 @@ class StatementPrinter {
     private func renderPlainText(_ data: StatementData) throws -> String {
         var result = "Statement for \(data.customer)\n"
         
-        for performance in data.performances {
+        for charge in data.performanceCharges {
             // print line for this order
-            result += "  \(performance.charge.playName): \(usd(amount: performance.charge.cost)) (\(performance.audience) seats)\n"
+            result += "  \(charge.playName): \(usd(amount: charge.cost)) (\(charge.attendanceCount) seats)\n"
         }
         
         result += "Amount owed is \(usd(amount: data.totalAmount))\n"
