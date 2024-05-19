@@ -79,7 +79,7 @@ class StatementPrinter {
         
         for performance in data.performances {
             // print line for this order
-            result += "  \(performance.charge.playName): \(usd(amount: performance.cost!)) (\(performance.audience) seats)\n"
+            result += "  \(performance.charge.playName): \(usd(amount: performance.charge.cost)) (\(performance.audience) seats)\n"
         }
         
         result += "Amount owed is \(usd(amount: data.totalAmount))\n"
