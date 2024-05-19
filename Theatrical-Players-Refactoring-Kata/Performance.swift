@@ -9,7 +9,10 @@ struct Performance {
     init(
         playID: String,
         audience: Int,
-        charge: PerformanceCharge = PerformanceCharge(playName: "Placeholder", cost: 0),
+        charge: PerformanceCharge = PerformanceCharge(
+            playName: "Placeholder",
+            cost: 0,
+            volumeCredits: 0),
         volumeCredits: Int? = nil
     ) {
         self.playID = playID
@@ -22,4 +25,5 @@ struct Performance {
 struct PerformanceCharge {
     let playName: String
     let cost: Int
+    let volumeCredits: Int
 }
