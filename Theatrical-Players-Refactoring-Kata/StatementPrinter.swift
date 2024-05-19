@@ -21,6 +21,7 @@ class StatementPrinter {
         func enrich(_ performance: Performance) throws -> Performance {
             var result = performance
             result.charge = .init(playName: try play(for: result.playID).name)
+            
             result.play = try play(for: result.playID)
             result.cost = try costFor(try play(for: result.playID).genre, attendanceCount: result.audience)
             result.volumeCredits = volumeCreditsFor(try play(for: result.playID).genre, attendanceCount: result.audience)
@@ -76,7 +77,7 @@ class StatementPrinter {
         
         for performance in data.performances {
             // print line for this order
-            result += "  \(performance.play!.name): \(usd(amount: performance.cost!)) (\(performance.audience) seats)\n"
+            result += "  \(performance.charge.playName): \(usd(amount: performance.cost!)) (\(performance.audience) seats)\n"
         }
         
         result += "Amount owed is \(usd(amount: data.totalAmount))\n"
