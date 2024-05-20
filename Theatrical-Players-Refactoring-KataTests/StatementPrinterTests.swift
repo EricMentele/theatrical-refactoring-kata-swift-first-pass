@@ -14,16 +14,8 @@ class StatementPrinterTests: XCTestCase {
 
             """
         
-        let invoice = Invoice(
-            customer: "BigCo", performances: [
-                Performance(playID: "hamlet", audience: 55),
-                Performance(playID: "as-like", audience: 35),
-                Performance(playID: "othello", audience: 40)
-            ]
-        )
-        
         let statementPrinter = StatementPrinter()
-        let result = try statementPrinter.generateStatement(invoice, knownPlays())
+        let result = try statementPrinter.generateStatement(invoiceWithKnownPlays(), knownPlays())
         
         XCTAssertEqual(result, expected)
     }
@@ -50,19 +42,12 @@ class StatementPrinterTests: XCTestCase {
             "hamlet": Play(name: "Hamlet", genre: .tragedy),
             "as-like": Play(name: "As You Like It", genre: .tragedy)
         ]
-        let invoice = Invoice(
-            customer: "BigCo", performances: [
-                Performance(playID: "hamlet", audience: 55),
-                Performance(playID: "as-like", audience: 35),
-                Performance(playID: "othello", audience: 40)
-            ]
-        )
         let statementPrinter = StatementPrinter()
         let expectedError = UnknownTypeError.unknownTypeError("unknown play")
         
         var unknownPlayError: UnknownTypeError?
         do {
-            let _ = try statementPrinter.generateStatement(invoice, plays)
+            let _ = try statementPrinter.generateStatement(invoiceWithKnownPlays(), plays)
         } catch let error as UnknownTypeError {
             unknownPlayError = error
         } catch {
@@ -85,16 +70,8 @@ class StatementPrinterTests: XCTestCase {
             
             """
         
-        let invoice = Invoice(
-            customer: "BigCo", performances: [
-                Performance(playID: "hamlet", audience: 55),
-                Performance(playID: "as-like", audience: 35),
-                Performance(playID: "othello", audience: 40)
-            ]
-        )
-        
         let statementPrinter = StatementPrinter()
-        let result = try statementPrinter.generateStatementHTML(invoice, knownPlays())
+        let result = try statementPrinter.generateStatementHTML(invoiceWithKnownPlays(), knownPlays())
         XCTAssertEqual(result, expected)
     }
 }
@@ -106,5 +83,15 @@ extension StatementPrinterTests {
             "as-like": Play(name: "As You Like It", genre: .comedy),
             "othello": Play(name: "Othello", genre: .tragedy)
         ]
+    }
+    
+    func invoiceWithKnownPlays() -> Invoice {
+        Invoice(
+            customer: "BigCo", performances: [
+                Performance(playID: "hamlet", audience: 55),
+                Performance(playID: "as-like", audience: 35),
+                Performance(playID: "othello", audience: 40)
+            ]
+        )
     }
 }
