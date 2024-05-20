@@ -1,10 +1,3 @@
-struct StatementData {
-    let customer: String
-    let performanceCharges: [PerformanceCharge]
-    let totalAmount: Int
-    let totalVolumeCredits: Int
-}
-
 func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>) throws -> StatementData {
     return StatementData(
         customer: invoice.customer,
