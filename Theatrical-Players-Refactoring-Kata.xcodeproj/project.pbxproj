@@ -14,6 +14,7 @@
 		104F7D91232830EF00665957 /* Performance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104F7D90232830EF00665957 /* Performance.swift */; };
 		104F7D932328312700665957 /* Invoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104F7D922328312600665957 /* Invoice.swift */; };
 		104F7D95232831E000665957 /* StatementPrinter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104F7D94232831E000665957 /* StatementPrinter.swift */; };
+		8C46E75B2BFBD99700127562 /* PerformanceCharge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46E75A2BFBD99700127562 /* PerformanceCharge.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +38,7 @@
 		104F7D90232830EF00665957 /* Performance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Performance.swift; sourceTree = "<group>"; };
 		104F7D922328312600665957 /* Invoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invoice.swift; sourceTree = "<group>"; };
 		104F7D94232831E000665957 /* StatementPrinter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatementPrinter.swift; sourceTree = "<group>"; };
+		8C46E75A2BFBD99700127562 /* PerformanceCharge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceCharge.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 				104F7D7823282F2900665957 /* Info.plist */,
 				104F7D8E2328305A00665957 /* Play.swift */,
 				104F7D90232830EF00665957 /* Performance.swift */,
+				8C46E75A2BFBD99700127562 /* PerformanceCharge.swift */,
 				104F7D922328312600665957 /* Invoice.swift */,
 				104F7D94232831E000665957 /* StatementPrinter.swift */,
 			);
@@ -208,6 +211,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				104F7D91232830EF00665957 /* Performance.swift in Sources */,
+				8C46E75B2BFBD99700127562 /* PerformanceCharge.swift in Sources */,
 				104F7D932328312700665957 /* Invoice.swift in Sources */,
 				104F7D95232831E000665957 /* StatementPrinter.swift in Sources */,
 				104F7D8F2328305A00665957 /* Play.swift in Sources */,
