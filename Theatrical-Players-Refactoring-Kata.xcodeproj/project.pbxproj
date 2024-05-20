@@ -16,6 +16,7 @@
 		104F7D95232831E000665957 /* StatementPrinter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104F7D94232831E000665957 /* StatementPrinter.swift */; };
 		8C46E75B2BFBD99700127562 /* PerformanceCharge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46E75A2BFBD99700127562 /* PerformanceCharge.swift */; };
 		8C46E75D2BFBDED800127562 /* StatementDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46E75C2BFBDED800127562 /* StatementDataProvider.swift */; };
+		8C46E75F2BFBF1E500127562 /* StatementData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46E75E2BFBF1E500127562 /* StatementData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,7 @@
 		104F7D94232831E000665957 /* StatementPrinter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatementPrinter.swift; sourceTree = "<group>"; };
 		8C46E75A2BFBD99700127562 /* PerformanceCharge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceCharge.swift; sourceTree = "<group>"; };
 		8C46E75C2BFBDED800127562 /* StatementDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatementDataProvider.swift; sourceTree = "<group>"; };
+		8C46E75E2BFBF1E500127562 /* StatementData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatementData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 				104F7D922328312600665957 /* Invoice.swift */,
 				104F7D94232831E000665957 /* StatementPrinter.swift */,
 				8C46E75C2BFBDED800127562 /* StatementDataProvider.swift */,
+				8C46E75E2BFBF1E500127562 /* StatementData.swift */,
 			);
 			path = "Theatrical-Players-Refactoring-Kata";
 			sourceTree = "<group>";
@@ -218,6 +221,7 @@
 				8C46E75B2BFBD99700127562 /* PerformanceCharge.swift in Sources */,
 				104F7D932328312700665957 /* Invoice.swift in Sources */,
 				104F7D95232831E000665957 /* StatementPrinter.swift in Sources */,
+				8C46E75F2BFBF1E500127562 /* StatementData.swift in Sources */,
 				104F7D8F2328305A00665957 /* Play.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
