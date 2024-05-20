@@ -14,12 +14,6 @@ class StatementPrinterTests: XCTestCase {
 
             """
         
-        let plays = [
-            "hamlet": Play(name: "Hamlet", genre: .tragedy),
-            "as-like": Play(name: "As You Like It", genre: .comedy),
-            "othello": Play(name: "Othello", genre: .tragedy)
-        ]
-        
         let invoice = Invoice(
             customer: "BigCo", performances: [
                 Performance(playID: "hamlet", audience: 55),
@@ -29,7 +23,7 @@ class StatementPrinterTests: XCTestCase {
         )
         
         let statementPrinter = StatementPrinter()
-        let result = try statementPrinter.generateStatement(invoice, plays)
+        let result = try statementPrinter.generateStatement(invoice, knownPlays())
         
         XCTAssertEqual(result, expected)
     }
@@ -91,12 +85,6 @@ class StatementPrinterTests: XCTestCase {
             
             """
         
-        let plays = [
-            "hamlet": Play(name: "Hamlet", genre: .tragedy),
-            "as-like": Play(name: "As You Like It", genre: .comedy),
-            "othello": Play(name: "Othello", genre: .tragedy)
-        ]
-        
         let invoice = Invoice(
             customer: "BigCo", performances: [
                 Performance(playID: "hamlet", audience: 55),
@@ -106,7 +94,17 @@ class StatementPrinterTests: XCTestCase {
         )
         
         let statementPrinter = StatementPrinter()
-        let result = try statementPrinter.generateStatementHTML(invoice, plays)
+        let result = try statementPrinter.generateStatementHTML(invoice, knownPlays())
         XCTAssertEqual(result, expected)
+    }
+}
+
+extension StatementPrinterTests {
+    func knownPlays() -> Dictionary<String, Play> {
+        [
+            "hamlet": Play(name: "Hamlet", genre: .tragedy),
+            "as-like": Play(name: "As You Like It", genre: .comedy),
+            "othello": Play(name: "Othello", genre: .tragedy)
+        ]
     }
 }
