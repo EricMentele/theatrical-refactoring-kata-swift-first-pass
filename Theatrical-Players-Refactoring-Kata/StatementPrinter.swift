@@ -15,12 +15,13 @@ class StatementPrinter {
         result += "You earned \(data.totalVolumeCredits) credits\n"
         return result
         
-        func usd(amount: Int) -> String {
-            let frmt = NumberFormatter()
-            frmt.numberStyle = .currency
-            frmt.locale = Locale(identifier: "en_US")
-            return frmt.string(for: NSNumber(value: Double(amount / 100)))!
-        }
+    }
+    
+    private func usd(amount: Int) -> String {
+        let frmt = NumberFormatter()
+        frmt.numberStyle = .currency
+        frmt.locale = Locale(identifier: "en_US")
+        return frmt.string(for: NSNumber(value: Double(amount / 100)))!
     }
 }
 
