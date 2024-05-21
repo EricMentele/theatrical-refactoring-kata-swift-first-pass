@@ -21,11 +21,6 @@ class StatementPrinterTests: XCTestCase {
     }
     
     func test_generateStatement_throwsErrorOnNewPlayTypes() {
-        let plays = [
-            "henry-v": Play(name: "Henry V", genre: .unknown),
-            "as-like": Play(name: "As You Like It", genre: .unknown)
-        ]
-        
         let invoice = Invoice(
             customer: "BigCo", performances: [
                 Performance(playID: "henry-v", audience: 53),
@@ -34,7 +29,7 @@ class StatementPrinterTests: XCTestCase {
         )
         
         let statementPrinter = StatementPrinter()
-        XCTAssertThrowsError(try statementPrinter.generateStatement(invoice, plays))        
+        XCTAssertThrowsError(try statementPrinter.generateStatement(invoice, newPlay()))
     }
     
     func test_generateStatement_throwsErrorOnUknownPlay() {
@@ -82,6 +77,13 @@ extension StatementPrinterTests {
             "hamlet": Play(name: "Hamlet", genre: .tragedy),
             "as-like": Play(name: "As You Like It", genre: .comedy),
             "othello": Play(name: "Othello", genre: .tragedy)
+        ]
+    }
+    
+    func newPlay() -> Dictionary<String, Play> {
+        [
+            "henry-v": Play(name: "Henry V", genre: .unknown),
+            "as-like": Play(name: "As You Like It", genre: .unknown)
         ]
     }
     
