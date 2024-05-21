@@ -4,7 +4,7 @@ import XCTest
 
 class StatementPrinterTests: XCTestCase {
     func test_generateStatement_producesStatmentForKnownPlays() throws {
-        let expected = """
+        let expectedStatementPlainText = """
             Statement for BigCo
               Hamlet: $650.00 (55 seats)
               As You Like It: $580.00 (35 seats)
@@ -13,21 +13,20 @@ class StatementPrinterTests: XCTestCase {
             You earned 47 credits
 
             """
+        let sut = StatementPrinter()
         
-        let statementPrinter = StatementPrinter()
-        let result = try statementPrinter.generateStatement(invoiceWithKnownPlays(), knownPlays())
+        let result = try sut.generateStatement(invoiceWithKnownPlays(), knownPlays())
         
-        XCTAssertEqual(result, expected)
+        XCTAssertEqual(result, expectedStatementPlainText)
     }
     
     func test_generateStatement_throwsErrorOnNewPlayTypes() {
-        let statementPrinter = StatementPrinter()
-        
+        let sut = StatementPrinter()
         let expectedError = UnknownTypeError.unknownTypeError("new play")
-        
+
         var unknownPlayError: UnknownTypeError?
         do {
-            let _ = try statementPrinter.generateStatement(invoiceWithNewPlay(), newPlay())
+            let _ = try sut.generateStatement(invoiceWithNewPlay(), newPlay())
         } catch let error as UnknownTypeError {
             unknownPlayError = error
         } catch {
@@ -38,12 +37,12 @@ class StatementPrinterTests: XCTestCase {
     }
     
     func test_generateStatement_throwsErrorOnUknownPlay() {
-        let statementPrinter = StatementPrinter()
+        let sut = StatementPrinter()
         let expectedError = UnknownTypeError.unknownTypeError("unknown play")
         
         var unknownPlayError: UnknownTypeError?
         do {
-            let _ = try statementPrinter.generateStatement(invoiceWithKnownPlays(), missingPlay())
+            let _ = try sut.generateStatement(invoiceWithKnownPlays(), missingPlay())
         } catch let error as UnknownTypeError {
             unknownPlayError = error
         } catch {
@@ -54,7 +53,7 @@ class StatementPrinterTests: XCTestCase {
     }
     
     func test_generateStatementHTML_producesHTMLFormattedStatementForKnownPlays() throws {
-        let expected = """
+        let expectedStatementHTML = """
             <h1>Statement for BigCo</h1>
             <table>
             <tr><th>play</th><th>seats</th><th>cost</th></tr><tr><td>Hamlet</td><td>55</td><td>$650.00</td></tr>
@@ -66,9 +65,10 @@ class StatementPrinterTests: XCTestCase {
             
             """
         
-        let statementPrinter = StatementPrinter()
-        let result = try statementPrinter.generateStatementHTML(invoiceWithKnownPlays(), knownPlays())
-        XCTAssertEqual(result, expected)
+        let sut = StatementPrinter()
+        let result = try sut.generateStatementHTML(invoiceWithKnownPlays(), knownPlays())
+        
+        XCTAssertEqual(result, expectedStatementHTML)
     }
 }
 
