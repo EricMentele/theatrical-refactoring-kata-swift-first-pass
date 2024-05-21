@@ -38,16 +38,12 @@ class StatementPrinterTests: XCTestCase {
     }
     
     func test_generateStatement_throwsErrorOnUknownPlay() {
-        let plays = [
-            "hamlet": Play(name: "Hamlet", genre: .tragedy),
-            "as-like": Play(name: "As You Like It", genre: .tragedy)
-        ]
         let statementPrinter = StatementPrinter()
         let expectedError = UnknownTypeError.unknownTypeError("unknown play")
         
         var unknownPlayError: UnknownTypeError?
         do {
-            let _ = try statementPrinter.generateStatement(invoiceWithKnownPlays(), plays)
+            let _ = try statementPrinter.generateStatement(invoiceWithKnownPlays(), missingPlay())
         } catch let error as UnknownTypeError {
             unknownPlayError = error
         } catch {
@@ -89,6 +85,13 @@ extension StatementPrinterTests {
         [
             "henry-v": Play(name: "Henry V", genre: .unknown),
             "as-like": Play(name: "As You Like It", genre: .unknown)
+        ]
+    }
+    
+    func missingPlay() -> Dictionary<String, Play> {
+        [
+            "hamlet": Play(name: "Hamlet", genre: .tragedy),
+            "as-like": Play(name: "As You Like It", genre: .tragedy)
         ]
     }
     
