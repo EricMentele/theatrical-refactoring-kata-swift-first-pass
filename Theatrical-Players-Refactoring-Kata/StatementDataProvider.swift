@@ -40,7 +40,7 @@ func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>
             }
             result += 300 * attendanceCount
         case .unknown:
-            throw UnknownTypeError.unknownTypeError("unknown type: \(genre)")
+            throw UnknownTypeError.unknownTypeError("new play")
         }
         
         return result

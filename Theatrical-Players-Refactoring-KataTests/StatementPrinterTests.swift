@@ -29,7 +29,19 @@ class StatementPrinterTests: XCTestCase {
         )
         
         let statementPrinter = StatementPrinter()
-        XCTAssertThrowsError(try statementPrinter.generateStatement(invoice, newPlay()))
+        
+        let expectedError = UnknownTypeError.unknownTypeError("new play")
+        
+        var unknownPlayError: UnknownTypeError?
+        do {
+            let _ = try statementPrinter.generateStatement(invoice, newPlay())
+        } catch let error as UnknownTypeError {
+            unknownPlayError = error
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+        
+        XCTAssertEqual(unknownPlayError, expectedError)
     }
     
     func test_generateStatement_throwsErrorOnUknownPlay() {
