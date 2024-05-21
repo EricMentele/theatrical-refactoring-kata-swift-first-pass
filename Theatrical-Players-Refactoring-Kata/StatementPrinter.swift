@@ -1,13 +1,13 @@
 class StatementPrinter {
     func generateStatement(_ invoice: Invoice, _ plays: Dictionary<String, Play>) throws -> String {
-        try renderPlainText(generateStatementData(invoice, plays))
+        renderPlainText(try generateStatementData(invoice, plays))
     }
     
     func generateStatementHTML(_ invoice: Invoice, _ plays: Dictionary<String, Play>) throws -> String {
-        try renderHTML(generateStatementData(invoice, plays))
+        renderHTML(try generateStatementData(invoice, plays))
     }
     
-    private func renderPlainText(_ data: StatementData) throws -> String {
+    private func renderPlainText(_ data: StatementData) -> String {
         var result = "Statement for \(data.customer)\n"
         
         for charge in data.performanceCharges {
@@ -20,7 +20,7 @@ class StatementPrinter {
         return result
     }
     
-    private func renderHTML(_ data: StatementData) throws -> String {
+    private func renderHTML(_ data: StatementData) -> String {
         var result = "<h1>Statement for \(data.customer)</h1>\n"
         result += "<table>\n"
         result += "<tr><th>play</th><th>seats</th><th>cost</th></tr>"
