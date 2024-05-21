@@ -21,20 +21,13 @@ class StatementPrinterTests: XCTestCase {
     }
     
     func test_generateStatement_throwsErrorOnNewPlayTypes() {
-        let invoice = Invoice(
-            customer: "BigCo", performances: [
-                Performance(playID: "henry-v", audience: 53),
-                Performance(playID: "as-like", audience: 55)
-            ]
-        )
-        
         let statementPrinter = StatementPrinter()
         
         let expectedError = UnknownTypeError.unknownTypeError("new play")
         
         var unknownPlayError: UnknownTypeError?
         do {
-            let _ = try statementPrinter.generateStatement(invoice, newPlay())
+            let _ = try statementPrinter.generateStatement(invoiceWithNewPlay(), newPlay())
         } catch let error as UnknownTypeError {
             unknownPlayError = error
         } catch {
@@ -105,6 +98,16 @@ extension StatementPrinterTests {
                 Performance(playID: "hamlet", audience: 55),
                 Performance(playID: "as-like", audience: 35),
                 Performance(playID: "othello", audience: 40)
+            ]
+        )
+    }
+    
+    func invoiceWithNewPlay() -> Invoice {
+        Invoice(
+            customer: "BigCo", 
+            performances: [
+                Performance(playID: "henry-v", audience: 53),
+                Performance(playID: "as-like", audience: 55)
             ]
         )
     }
