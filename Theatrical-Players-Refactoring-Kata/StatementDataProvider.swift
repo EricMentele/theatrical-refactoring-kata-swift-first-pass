@@ -11,8 +11,12 @@ func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>
             playName: try play(for: performance.playID).name,
             cost: try costFor(
                 try play(for: performance.playID).genre,
-                attendanceCount: performance.audience),
-            volumeCredits: volumeCreditsFor(try play(for: performance.playID).genre, attendanceCount: performance.audience),
+                attendanceCount: performance.audience
+            ),
+            volumeCredits: volumeCreditsFor(
+                try play(for: performance.playID).genre,
+                attendanceCount: performance.audience
+            ),
             attendanceCount: performance.audience
         )
     }
