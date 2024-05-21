@@ -2,8 +2,8 @@ func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>
     return StatementData(
         customer: invoice.customer,
         performanceCharges: try invoice.performances.map(charge),
-        totalAmount: totalOf(try invoice.performances.map(charge).map { $0.cost }),
-        totalVolumeCredits: totalOf(try invoice.performances.map(charge).map { $0.volumeCredits })
+        totalAmount: try invoice.performances.map(charge).map { $0.cost }.sum,
+        totalVolumeCredits: try invoice.performances.map(charge).map { $0.volumeCredits }.sum
     )
     
     func charge(_ performance: Performance) throws -> PerformanceCharge {
@@ -55,8 +55,10 @@ func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>
         }
         return result
     }
-    
-    func totalOf(_ amounts: [Int]) -> Int {
-        amounts.reduce(0) { $0 + $1 }
+}
+
+private extension Array where Element == Int {
+    var sum: Int {
+        self.reduce(0) { $0 + $1 }
     }
 }
