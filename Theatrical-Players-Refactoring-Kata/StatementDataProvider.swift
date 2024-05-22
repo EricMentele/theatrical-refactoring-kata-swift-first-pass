@@ -45,22 +45,14 @@ func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>
 
 struct PerformanceCostProvider {
     func costFor(_ genre: Play.Genre, attendanceCount: Int) throws -> Int {
-        var result = 0
-        
         switch(genre) {
         case .tragedy:
             return TragedyPerformanceCost().costFor(attendanceCount: attendanceCount)
         case .comedy:
-            result = 30000
-            if (attendanceCount > 20) {
-                result += 10000 + 500 * (attendanceCount - 20)
-            }
-            result += 300 * attendanceCount
+            return ComedyPerformanceCost().costFor(attendanceCount: attendanceCount)
         case .unknown:
             throw UnknownTypeError.unknownTypeError("new play")
         }
-        
-        return result
     }
     
     struct TragedyPerformanceCost {
@@ -69,6 +61,15 @@ struct PerformanceCostProvider {
             let exceededBaseVolume = count > baseVolume
             let additionalVolumeCost = exceededBaseVolume ? 1000 * (count - baseVolume) : 0
             return 40000 + additionalVolumeCost
+        }
+    }
+    
+    struct ComedyPerformanceCost {
+        func costFor(attendanceCount count: Int) -> Int {
+            let baseVolume = 20
+            let exceededBaseVolume = count > baseVolume
+            let additionalVolumeCost = exceededBaseVolume ? 10000 + 500 * (count - baseVolume) : 0
+            return 30000 + additionalVolumeCost + 300 * count
         }
     }
 }
