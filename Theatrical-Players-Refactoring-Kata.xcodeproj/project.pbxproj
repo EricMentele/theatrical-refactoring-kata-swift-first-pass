@@ -18,6 +18,7 @@
 		8C46E75D2BFBDED800127562 /* StatementDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46E75C2BFBDED800127562 /* StatementDataProvider.swift */; };
 		8C46E75F2BFBF1E500127562 /* StatementData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46E75E2BFBF1E500127562 /* StatementData.swift */; };
 		8C46E7632BFE3C6600127562 /* PerformanceCostProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46E7622BFE3C6600127562 /* PerformanceCostProviderTests.swift */; };
+		8C46E7652BFE73BC00127562 /* PerformanceCostProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46E7642BFE73BC00127562 /* PerformanceCostProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		8C46E75C2BFBDED800127562 /* StatementDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatementDataProvider.swift; sourceTree = "<group>"; };
 		8C46E75E2BFBF1E500127562 /* StatementData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatementData.swift; sourceTree = "<group>"; };
 		8C46E7622BFE3C6600127562 /* PerformanceCostProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceCostProviderTests.swift; sourceTree = "<group>"; };
+		8C46E7642BFE73BC00127562 /* PerformanceCostProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceCostProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 				104F7D94232831E000665957 /* StatementPrinter.swift */,
 				8C46E75C2BFBDED800127562 /* StatementDataProvider.swift */,
 				8C46E75E2BFBF1E500127562 /* StatementData.swift */,
+				8C46E7642BFE73BC00127562 /* PerformanceCostProvider.swift */,
 			);
 			path = "Theatrical-Players-Refactoring-Kata";
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 				104F7D932328312700665957 /* Invoice.swift in Sources */,
 				104F7D95232831E000665957 /* StatementPrinter.swift in Sources */,
 				8C46E75F2BFBF1E500127562 /* StatementData.swift in Sources */,
+				8C46E7652BFE73BC00127562 /* PerformanceCostProvider.swift in Sources */,
 				104F7D8F2328305A00665957 /* Play.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
