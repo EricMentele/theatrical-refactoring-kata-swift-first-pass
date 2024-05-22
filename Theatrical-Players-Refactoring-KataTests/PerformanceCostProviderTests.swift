@@ -2,7 +2,6 @@ import XCTest
 @testable import Theatrical_Players_Refactoring_Kata
 
 final class PerformanceCostProviderTests: XCTestCase {
-    // MARK: Tragedy
     func test_cost_returnsCorrectPerformanceCost() throws {
         let genreBaseCosts: [(Play.Genre, Int)] = [
             (.tragedy, 40000),
@@ -33,11 +32,12 @@ final class PerformanceCostProviderTests: XCTestCase {
         }
     }
     
-    // MARK: Unknown
+    // MARK: Errors
+    
     func test_costFor_throwsNewPlayErrorOnUknownGenre() throws {
         let sut = PerformanceCostProvider()
         
-        XCTAssertThrowsError(try sut.costFor(.unknown, attendanceCount: 100))
+        XCTAssertThrowsError(try sut.cost(for: .unknown))
     }
 }
 

@@ -48,17 +48,6 @@ protocol PerformanceCost {
 }
 
 struct PerformanceCostProvider {
-    func costFor(_ genre: Play.Genre, attendanceCount: Int) throws -> Int {
-        switch(genre) {
-        case .tragedy:
-            return TragedyPerformanceCost().amountFor(attendanceCount: attendanceCount)
-        case .comedy:
-            return ComedyPerformanceCost().amountFor(attendanceCount: attendanceCount)
-        case .unknown:
-            throw UnknownTypeError.unknownTypeError("new play")
-        }
-    }
-    
     func cost(for genre: Play.Genre) throws -> PerformanceCost {
         switch(genre) {
         case .tragedy:
