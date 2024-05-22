@@ -18,24 +18,19 @@ final class PerformanceCostProviderTests: XCTestCase {
         }
     }
     
-    func test_costFor_returnsAdditionalVolumeCostForTragedy() throws {
-        let sut = PerformanceCostProvider()
-        let genre: Play.Genre = .tragedy
-        let expectedCost = 41000
+    func test_cost_returnsAdditionalVolumeAttendanceCountPerformanceCost() throws {
+        let genreBaseCosts: [(Play.Genre, Int)] = [
+            (.tragedy, 41000),
+            (.comedy, 46800)
+        ]
         
-        let result = try sut.costFor(genre, attendanceCount: genre.additionalVolumeAttendanceCount)
-        
-        XCTAssertEqual(result, expectedCost)
-    }
-    
-    func test_costFor_returnsAdditionalVolumeCostForComedy() throws {
-        let sut = PerformanceCostProvider()
-        let genre: Play.Genre = .comedy
-        let expectedCost = 46800
-        
-        let result = try sut.costFor(genre, attendanceCount: genre.additionalVolumeAttendanceCount)
-        
-        XCTAssertEqual(result, expectedCost)
+        try genreBaseCosts.forEach { (genre, expectedCost) in
+            self.expect(
+                try PerformanceCostProvider().cost(for: genre),
+                withAttendanceCount: genre.additionalVolumeAttendanceCount,
+                toBe: expectedCost
+            )
+        }
     }
     
     // MARK: Unknown
