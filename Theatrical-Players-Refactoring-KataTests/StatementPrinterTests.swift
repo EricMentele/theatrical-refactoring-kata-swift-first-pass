@@ -20,6 +20,25 @@ class StatementPrinterTests: XCTestCase {
         XCTAssertEqual(result, expectedStatementPlainText)
     }
     
+    func test_generateStatementHTML_producesHTMLFormattedStatementForKnownPlays() throws {
+        let expectedStatementHTML = """
+            <h1>Statement for BigCo</h1>
+            <table>
+            <tr><th>play</th><th>seats</th><th>cost</th></tr><tr><td>Hamlet</td><td>55</td><td>$650.00</td></tr>
+            <tr><td>As You Like It</td><td>35</td><td>$580.00</td></tr>
+            <tr><td>Othello</td><td>40</td><td>$500.00</td></tr>
+            </table>
+            <p>Amount owed is <em>$1,730.00</em></p>
+            <p>You earned <em>47</em> credits</p>
+            
+            """
+        
+        let sut = StatementPrinter()
+        let result = try sut.generateStatementHTML(invoiceWithKnownPlays(), knownPlays())
+        
+        XCTAssertEqual(result, expectedStatementHTML)
+    }
+    
     func test_generateStatement_throwsErrorOnNewPlayTypes() {
         let sut = StatementPrinter()
         let expectedError = UnknownTypeError.unknownTypeError("new play")
@@ -50,25 +69,6 @@ class StatementPrinterTests: XCTestCase {
         }
         
         XCTAssertEqual(unknownPlayError, expectedError)
-    }
-    
-    func test_generateStatementHTML_producesHTMLFormattedStatementForKnownPlays() throws {
-        let expectedStatementHTML = """
-            <h1>Statement for BigCo</h1>
-            <table>
-            <tr><th>play</th><th>seats</th><th>cost</th></tr><tr><td>Hamlet</td><td>55</td><td>$650.00</td></tr>
-            <tr><td>As You Like It</td><td>35</td><td>$580.00</td></tr>
-            <tr><td>Othello</td><td>40</td><td>$500.00</td></tr>
-            </table>
-            <p>Amount owed is <em>$1,730.00</em></p>
-            <p>You earned <em>47</em> credits</p>
-            
-            """
-        
-        let sut = StatementPrinter()
-        let result = try sut.generateStatementHTML(invoiceWithKnownPlays(), knownPlays())
-        
-        XCTAssertEqual(result, expectedStatementHTML)
     }
 }
 
