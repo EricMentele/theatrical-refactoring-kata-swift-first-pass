@@ -6,15 +6,17 @@ struct PerformanceCostProvider {
     func cost(for genre: Play.Genre) throws -> PerformanceCost {
         switch(genre) {
         case .tragedy:
-            return TragedyPerformanceCost()
+            return Tragedy()
         case .comedy:
-            return ComedyPerformanceCost()
+            return Comedy()
+        case .pastoral:
+            return Pastoral()
         case .unknown:
             throw UnknownTypeError.unknownTypeError("new play")
         }
     }
     
-    struct TragedyPerformanceCost: PerformanceCost {
+    struct Tragedy: PerformanceCost {
         func amountFor(attendanceCount count: Int) -> Int {
             let baseVolume = 30
             let exceededBaseVolume = count > baseVolume
@@ -23,12 +25,18 @@ struct PerformanceCostProvider {
         }
     }
     
-    struct ComedyPerformanceCost: PerformanceCost {
+    struct Comedy: PerformanceCost {
         func amountFor(attendanceCount count: Int) -> Int {
             let baseVolume = 20
             let exceededBaseVolume = count > baseVolume
             let additionalVolumeCost = exceededBaseVolume ? 10000 + 500 * (count - baseVolume) : 0
             return 30000 + additionalVolumeCost + 300 * count
+        }
+    }
+    
+    struct Pastoral: PerformanceCost {
+        func amountFor(attendanceCount count: Int) -> Int {
+            return 30
         }
     }
 }

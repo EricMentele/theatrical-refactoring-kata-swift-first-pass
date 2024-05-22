@@ -3,10 +3,19 @@ import XCTest
 
 final class PerformanceCostProviderTests: XCTestCase {
     func test_cost_returnsCorrectPerformanceCost() throws {
-        let genreBaseCosts: [(Play.Genre, Int)] = [
-            (.tragedy, 40000),
-            (.comedy, 36000)
-        ]
+        let genreBaseCosts: [(Play.Genre, Int)] = Play.Genre.allCases
+            .compactMap {
+                switch $0 {
+                case .tragedy:
+                    return ($0, 40000)
+                case .comedy:
+                    return ($0, 36000)
+                case .pastoral:
+                    return ($0, 30)
+                case .unknown:
+                    return nil
+                }
+            }
         
         try genreBaseCosts.forEach { (genre, expectedCost) in
             self.expect(
@@ -18,12 +27,21 @@ final class PerformanceCostProviderTests: XCTestCase {
     }
     
     func test_cost_returnsAdditionalVolumeAttendanceCountPerformanceCost() throws {
-        let genreBaseCosts: [(Play.Genre, Int)] = [
-            (.tragedy, 41000),
-            (.comedy, 46800)
-        ]
+        let genreAdditionalVolumeCosts: [(Play.Genre, Int)] = Play.Genre.allCases
+            .compactMap {
+                switch $0 {
+                case .tragedy:
+                    return ($0, 41000)
+                case .comedy:
+                    return ($0, 46800)
+                case .pastoral:
+                    return ($0, 30)
+                case .unknown:
+                    return nil
+                }
+            }
         
-        try genreBaseCosts.forEach { (genre, expectedCost) in
+        try genreAdditionalVolumeCosts.forEach { (genre, expectedCost) in
             self.expect(
                 try PerformanceCostProvider().cost(for: genre),
                 withAttendanceCount: genre.additionalVolumeAttendanceCount,
@@ -54,6 +72,8 @@ private extension Play.Genre {
             return 30
         case .comedy:
             return 20
+        case .pastoral:
+            return 0
         case .unknown:
             return 0
         }
