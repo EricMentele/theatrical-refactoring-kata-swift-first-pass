@@ -49,10 +49,7 @@ struct PerformanceCostProvider {
         
         switch(genre) {
         case .tragedy:
-            result = 40000
-            if (attendanceCount > 30) {
-                result += 1000 * (attendanceCount - 30)
-            }
+            return TragedyPerformanceCost().costFor(attendanceCount: attendanceCount)
         case .comedy:
             result = 30000
             if (attendanceCount > 20) {
@@ -64,6 +61,15 @@ struct PerformanceCostProvider {
         }
         
         return result
+    }
+    
+    struct TragedyPerformanceCost {
+        func costFor(attendanceCount count: Int) -> Int {
+            let baseVolume = 30
+            let exceededBaseVolume = count > baseVolume
+            let additionalVolumeCost = exceededBaseVolume ? 1000 * (count - baseVolume) : 0
+            return 40000 + additionalVolumeCost
+        }
     }
 }
 
