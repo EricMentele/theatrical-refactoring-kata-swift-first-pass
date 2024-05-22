@@ -14,16 +14,20 @@ class StatementPrinter {
         return StatementData(
             customer: invoice.customer,
             performances: try invoice.performances.map(enrich),
-            totalAmount: totalOf(try invoice.performances.map(enrich).map { $0.cost! }),
-            totalVolumeCredits: totalOf(try invoice.performances.map(enrich).map { $0.volumeCredits! })
+            totalAmount: totalOf(try invoice.performances.map(enrich).map { $0.charge.cost }),
+            totalVolumeCredits: totalOf(try invoice.performances.map(enrich).map { $0.charge.volumeCredits })
         )
         
         func enrich(_ performance: Performance) throws -> Performance {
             var result = performance
-            result.charge = .init(playName: try play(for: result.playID).name)
+            result.charge = .init(
+                playName: try play(for: result.playID).name,
+                cost: try costFor(
+                    try play(for: result.playID).genre,
+                    attendanceCount: result.audience),
+                volumeCredits: volumeCreditsFor(try play(for: result.playID).genre, attendanceCount: result.audience)
+            )
             
-            result.cost = try costFor(try play(for: result.playID).genre, attendanceCount: result.audience)
-            result.volumeCredits = volumeCreditsFor(try play(for: result.playID).genre, attendanceCount: result.audience)
             return result
         }
         
@@ -76,7 +80,7 @@ class StatementPrinter {
         
         for performance in data.performances {
             // print line for this order
-            result += "  \(performance.charge.playName): \(usd(amount: performance.cost!)) (\(performance.audience) seats)\n"
+            result += "  \(performance.charge.playName): \(usd(amount: performance.charge.cost)) (\(performance.audience) seats)\n"
         }
         
         result += "Amount owed is \(usd(amount: data.totalAmount))\n"
