@@ -8,7 +8,7 @@ final class PerformanceCostProviderTests: XCTestCase {
         let genre: Play.Genre = .tragedy
         let expectedCost = 40000
         
-        let result = try sut.costFor(genre, attendanceCount: genre.baseVolumeAttendanceCount)
+        let result = try sut.cost(for: genre).costFor(attendanceCount: genre.baseVolumeAttendanceCount)
         
         XCTAssertEqual(result, expectedCost)
     }

@@ -29,7 +29,7 @@ func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>
     }
     
     func costFor(_ genre: Play.Genre, attendanceCount: Int) throws -> Int {
-        try PerformanceCostProvider().costFor(genre, attendanceCount: attendanceCount)
+        try PerformanceCostProvider().cost(for: genre).costFor(attendanceCount: attendanceCount)
     }
     
     func volumeCreditsFor(_ genre: Play.Genre, attendanceCount: Int) -> Int {
@@ -41,6 +41,10 @@ func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>
         }
         return result
     }
+}
+
+protocol PerformanceCost {
+    func costFor(attendanceCount count: Int) -> Int
 }
 
 struct PerformanceCostProvider {
@@ -55,7 +59,18 @@ struct PerformanceCostProvider {
         }
     }
     
-    struct TragedyPerformanceCost {
+    func cost(for genre: Play.Genre) throws -> PerformanceCost {
+        switch(genre) {
+        case .tragedy:
+            return TragedyPerformanceCost()
+        case .comedy:
+            return ComedyPerformanceCost()
+        case .unknown:
+            throw UnknownTypeError.unknownTypeError("new play")
+        }
+    }
+    
+    struct TragedyPerformanceCost: PerformanceCost {
         func costFor(attendanceCount count: Int) -> Int {
             let baseVolume = 30
             let exceededBaseVolume = count > baseVolume
@@ -64,7 +79,7 @@ struct PerformanceCostProvider {
         }
     }
     
-    struct ComedyPerformanceCost {
+    struct ComedyPerformanceCost: PerformanceCost {
         func costFor(attendanceCount count: Int) -> Int {
             let baseVolume = 20
             let exceededBaseVolume = count > baseVolume
