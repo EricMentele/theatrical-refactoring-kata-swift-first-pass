@@ -15,7 +15,7 @@ class StatementPrinterTests: XCTestCase {
             """
         let sut = StatementPrinter()
         
-        let result = try sut.generateStatement(invoiceWithKnownPlays(), knownPlays())
+        let result = try sut.generateStatement(invoiceWithKnownPlaysPrinting(), knownPlaysPrinting())
         
         XCTAssertEqual(result, expectedStatementPlainText)
     }
@@ -34,7 +34,7 @@ class StatementPrinterTests: XCTestCase {
             """
         
         let sut = StatementPrinter()
-        let result = try sut.generateStatementHTML(invoiceWithKnownPlays(), knownPlays())
+        let result = try sut.generateStatementHTML(invoiceWithKnownPlaysPrinting(), knownPlaysPrinting())
         
         XCTAssertEqual(result, expectedStatementHTML)
     }
@@ -73,7 +73,7 @@ class StatementPrinterTests: XCTestCase {
 }
 
 extension StatementPrinterTests {
-    func knownPlays() -> Dictionary<String, Play> {
+    func knownPlaysPrinting() -> Dictionary<String, Play> {
         [
             "hamlet": Play(name: "Hamlet", genre: .tragedy),
             "as-like": Play(name: "As You Like It", genre: .comedy),
@@ -81,21 +81,7 @@ extension StatementPrinterTests {
         ]
     }
     
-    func newPlay() -> Dictionary<String, Play> {
-        [
-            "henry-v": Play(name: "Henry V", genre: .unknown),
-            "as-like": Play(name: "As You Like It", genre: .unknown)
-        ]
-    }
-    
-    func missingPlay() -> Dictionary<String, Play> {
-        [
-            "hamlet": Play(name: "Hamlet", genre: .tragedy),
-            "as-like": Play(name: "As You Like It", genre: .tragedy)
-        ]
-    }
-    
-    func invoiceWithKnownPlays() -> Invoice {
+    func invoiceWithKnownPlaysPrinting() -> Invoice {
         Invoice(
             customer: "BigCo", performances: [
                 Performance(playID: "hamlet", audience: 55),
@@ -105,12 +91,46 @@ extension StatementPrinterTests {
         )
     }
     
+    func missingPlay() -> Dictionary<String, Play> {
+        [
+            "hamlet": Play(name: "Hamlet", genre: .tragedy),
+            "as-like": Play(name: "As You Like It", genre: .tragedy)
+        ]
+    }
+    
+    func newPlay() -> Dictionary<String, Play> {
+        [
+            "new": Play(name: "Who Knows", genre: .unknown),
+            "so-new": Play(name: "Whatever", genre: .unknown)
+        ]
+    }
+    
     func invoiceWithNewPlay() -> Invoice {
         Invoice(
             customer: "BigCo", 
             performances: [
-                Performance(playID: "henry-v", audience: 53),
-                Performance(playID: "as-like", audience: 55)
+                Performance(playID: "new", audience: 53),
+                Performance(playID: "so-new", audience: 55)
+            ]
+        )
+    }
+    
+    func knownPlays() -> Dictionary<String, Play> {
+        [
+            "hamlet": Play(name: "Hamlet", genre: .tragedy),
+            "as-like": Play(name: "As You Like It", genre: .comedy),
+            "othello": Play(name: "Othello", genre: .tragedy),
+            "henry-v": Play(name: "Henry V As You Like It", genre: .pastoral)
+        ]
+    }
+    
+    func invoiceWithKnownPlays() -> Invoice {
+        Invoice(
+            customer: "BigCo", performances: [
+                Performance(playID: "hamlet", audience: 55),
+                Performance(playID: "as-like", audience: 35),
+                Performance(playID: "othello", audience: 40),
+                Performance(playID: "henry-v", audience: 53)
             ]
         )
     }
