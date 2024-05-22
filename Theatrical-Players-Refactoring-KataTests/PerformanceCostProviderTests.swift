@@ -41,7 +41,7 @@ final class PerformanceCostProviderTests: XCTestCase {
         let genre: Play.Genre = .tragedy
         let expectedCost = 41000
         
-        let result = try sut.costFor(genre, attendanceCount: genre.baseVolumeAttendanceCount + 1)
+        let result = try sut.costFor(genre, attendanceCount: genre.additionalVolumeAttendanceCount)
         
         XCTAssertEqual(result, expectedCost)
     }
@@ -57,5 +57,9 @@ private extension Play.Genre {
         case .unknown:
             return 0
         }
+    }
+    
+    var additionalVolumeAttendanceCount: Int {
+        baseVolumeAttendanceCount + 1
     }
 }
