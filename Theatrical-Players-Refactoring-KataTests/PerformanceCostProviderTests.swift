@@ -5,12 +5,11 @@ final class PerformanceCostProviderTests: XCTestCase {
     // MARK: Tragedy
     func test_costFor_returnsCostForTragedy() throws {
         let sut = PerformanceCostProvider()
-        let genre: Play.Genre = .tragedy
-        let expectedCost = 40000
-        
-        let result = try sut.cost(for: genre).amountFor(attendanceCount: genre.baseVolumeAttendanceCount)
-        
-        XCTAssertEqual(result, expectedCost)
+        expect(
+            try PerformanceCostProvider().cost(for: .tragedy),
+            withAttendanceCount: Play.Genre.tragedy.baseVolumeAttendanceCount,
+            toBe: 40000
+        )
     }
     
     func test_costFor_returnsAdditionalVolumeCostForTragedy() throws {
@@ -49,6 +48,12 @@ final class PerformanceCostProviderTests: XCTestCase {
         let sut = PerformanceCostProvider()
         
         XCTAssertThrowsError(try sut.costFor(.unknown, attendanceCount: 100))
+    }
+}
+
+private extension PerformanceCostProviderTests {
+    func expect(_ cost: PerformanceCost, withAttendanceCount count: Int, toBe expectedCost: Int, file: StaticString = #filePath, line: UInt = #line) {
+        XCTAssertEqual(cost.amountFor(attendanceCount: count), expectedCost)
     }
 }
 
