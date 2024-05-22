@@ -29,7 +29,7 @@ func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>
     }
     
     func costFor(_ genre: Play.Genre, attendanceCount: Int) throws -> Int {
-        try PerformanceCostProvider().cost(for: genre).costFor(attendanceCount: attendanceCount)
+        try PerformanceCostProvider().cost(for: genre).amountFor(attendanceCount: attendanceCount)
     }
     
     func volumeCreditsFor(_ genre: Play.Genre, attendanceCount: Int) -> Int {
@@ -44,16 +44,16 @@ func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>
 }
 
 protocol PerformanceCost {
-    func costFor(attendanceCount count: Int) -> Int
+    func amountFor(attendanceCount count: Int) -> Int
 }
 
 struct PerformanceCostProvider {
     func costFor(_ genre: Play.Genre, attendanceCount: Int) throws -> Int {
         switch(genre) {
         case .tragedy:
-            return TragedyPerformanceCost().costFor(attendanceCount: attendanceCount)
+            return TragedyPerformanceCost().amountFor(attendanceCount: attendanceCount)
         case .comedy:
-            return ComedyPerformanceCost().costFor(attendanceCount: attendanceCount)
+            return ComedyPerformanceCost().amountFor(attendanceCount: attendanceCount)
         case .unknown:
             throw UnknownTypeError.unknownTypeError("new play")
         }
@@ -71,7 +71,7 @@ struct PerformanceCostProvider {
     }
     
     struct TragedyPerformanceCost: PerformanceCost {
-        func costFor(attendanceCount count: Int) -> Int {
+        func amountFor(attendanceCount count: Int) -> Int {
             let baseVolume = 30
             let exceededBaseVolume = count > baseVolume
             let additionalVolumeCost = exceededBaseVolume ? 1000 * (count - baseVolume) : 0
@@ -80,7 +80,7 @@ struct PerformanceCostProvider {
     }
     
     struct ComedyPerformanceCost: PerformanceCost {
-        func costFor(attendanceCount count: Int) -> Int {
+        func amountFor(attendanceCount count: Int) -> Int {
             let baseVolume = 20
             let exceededBaseVolume = count > baseVolume
             let additionalVolumeCost = exceededBaseVolume ? 10000 + 500 * (count - baseVolume) : 0
