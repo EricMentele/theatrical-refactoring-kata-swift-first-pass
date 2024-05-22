@@ -4,9 +4,10 @@ struct Play {
 }
 
 extension Play {
-    enum Genre: String {
+    enum Genre: String, CaseIterable {
         case tragedy
         case comedy
+        case pastoral
         case unknown
         
         init?(type: String) {
@@ -15,6 +16,8 @@ extension Play {
                 self = .tragedy
             case "comedy":
                 self = .comedy
+            case "pastoral":
+                self = .pastoral
             default:
                 self = .unknown
             }
