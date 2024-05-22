@@ -28,9 +28,10 @@ struct PerformanceCostProvider {
 final class PerformanceCostProviderTests: XCTestCase {
     func test_performanceCost_returnsCostForTragedyWithoutHighVolume() throws {
         let sut = PerformanceCostProvider()
-        let expectedBaseCost = Play.Genre.tragedy.baseCost()
+        let genre: Play.Genre = .tragedy
+        let expectedBaseCost = genre.baseCost()
         
-        let result = try sut.costFor(.tragedy, attendanceCount: 10)
+        let result = try sut.costFor(.tragedy, attendanceCount: genre.baseVolumeAttendanceCount())
         
         XCTAssertEqual(result, expectedBaseCost)
     }
@@ -43,6 +44,17 @@ private extension Play.Genre {
             return 40000
         case .comedy:
             return 30000
+        case .unknown:
+            return 0
+        }
+    }
+    
+    func baseVolumeAttendanceCount() -> Int {
+        switch self {
+        case .tragedy:
+            return 30
+        case .comedy:
+            return 20
         case .unknown:
             return 0
         }
