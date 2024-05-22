@@ -35,6 +35,16 @@ final class PerformanceCostProviderTests: XCTestCase {
         
         XCTAssertEqual(result, expectedCost)
     }
+    
+    func test_costFor_returnsAdditionalVolumeCostForTragedy() throws {
+        let sut = PerformanceCostProvider()
+        let genre: Play.Genre = .tragedy
+        let expectedCost = 41000
+        
+        let result = try sut.costFor(genre, attendanceCount: genre.baseVolumeAttendanceCount + 1)
+        
+        XCTAssertEqual(result, expectedCost)
+    }
 }
 
 private extension Play.Genre {
