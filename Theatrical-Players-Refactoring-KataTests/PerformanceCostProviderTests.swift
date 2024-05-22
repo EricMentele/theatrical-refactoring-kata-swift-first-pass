@@ -3,13 +3,19 @@ import XCTest
 
 final class PerformanceCostProviderTests: XCTestCase {
     // MARK: Tragedy
-    func test_costFor_returnsCostForTragedy() throws {
-        let sut = PerformanceCostProvider()
-        expect(
-            try PerformanceCostProvider().cost(for: .tragedy),
-            withAttendanceCount: Play.Genre.tragedy.baseVolumeAttendanceCount,
-            toBe: 40000
-        )
+    func test_cost_returnsCorrectPerformanceCost() throws {
+        let genreBaseCosts: [(Play.Genre, Int)] = [
+            (.tragedy, 40000),
+            (.comedy, 36000)
+        ]
+        
+        try genreBaseCosts.forEach { (genre, expectedCost) in
+            self.expect(
+                try PerformanceCostProvider().cost(for: genre),
+                withAttendanceCount: genre.baseVolumeAttendanceCount,
+                toBe: expectedCost
+            )
+        }
     }
     
     func test_costFor_returnsAdditionalVolumeCostForTragedy() throws {
@@ -18,17 +24,6 @@ final class PerformanceCostProviderTests: XCTestCase {
         let expectedCost = 41000
         
         let result = try sut.costFor(genre, attendanceCount: genre.additionalVolumeAttendanceCount)
-        
-        XCTAssertEqual(result, expectedCost)
-    }
-    
-    // MARK: Comedy
-    func test_costFor_returnsCostForComedy() throws {
-        let sut = PerformanceCostProvider()
-        let genre: Play.Genre = .comedy
-        let expectedCost = 36000
-        
-        let result = try sut.costFor(genre, attendanceCount: genre.baseVolumeAttendanceCount)
         
         XCTAssertEqual(result, expectedCost)
     }
@@ -53,7 +48,7 @@ final class PerformanceCostProviderTests: XCTestCase {
 
 private extension PerformanceCostProviderTests {
     func expect(_ cost: PerformanceCost, withAttendanceCount count: Int, toBe expectedCost: Int, file: StaticString = #filePath, line: UInt = #line) {
-        XCTAssertEqual(cost.amountFor(attendanceCount: count), expectedCost)
+        XCTAssertEqual(cost.amountFor(attendanceCount: count), expectedCost, "Wrong cost for \(cost) with attendance of \(count)")
     }
 }
 
