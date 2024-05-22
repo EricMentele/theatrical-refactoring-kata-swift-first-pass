@@ -33,7 +33,10 @@ func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>
         
         switch(genre) {
         case .tragedy:
-            return TragedyPerformanceCost().forAudience(count: attendanceCount)
+            result = 40000
+            if (attendanceCount > 30) {
+                result += 1000 * (attendanceCount - 30)
+            }
         case .comedy:
             result = 30000
             if (attendanceCount > 20) {
@@ -45,13 +48,6 @@ func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>
         }
         
         return result
-    }
-    
-    struct TragedyPerformanceCost {
-        func forAudience(count: Int) -> Int {
-            let highVolumeCost = count > 30 ? 1000 * (count - 30) : 0
-            return 40000 + highVolumeCost
-        }
     }
     
     func volumeCreditsFor(_ genre: Play.Genre, attendanceCount: Int) -> Int {
