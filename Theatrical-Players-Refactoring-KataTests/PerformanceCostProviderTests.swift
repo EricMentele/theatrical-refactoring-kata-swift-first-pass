@@ -67,6 +67,13 @@ final class PerformanceCostProviderTests: XCTestCase {
         
         XCTAssertEqual(result, expectedCost)
     }
+    
+    // MARK: Unknown
+    func test_costFor_throwsNewPlayErrorOnUknownGenre() throws {
+        let sut = PerformanceCostProvider()
+        
+        XCTAssertThrowsError(try sut.costFor(.unknown, attendanceCount: 100))
+    }
 }
 
 private extension Play.Genre {
