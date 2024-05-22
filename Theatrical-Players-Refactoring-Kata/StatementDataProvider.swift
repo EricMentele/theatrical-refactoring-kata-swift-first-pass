@@ -29,6 +29,22 @@ func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>
     }
     
     func costFor(_ genre: Play.Genre, attendanceCount: Int) throws -> Int {
+        try PerformanceCostProvider().costFor(genre, attendanceCount: attendanceCount)
+    }
+    
+    func volumeCreditsFor(_ genre: Play.Genre, attendanceCount: Int) -> Int {
+        var result = 0
+        result += max(attendanceCount - 30, 0)
+        
+        if (.comedy == genre) {
+            result += Int(round(Double(attendanceCount / 5)))
+        }
+        return result
+    }
+}
+
+struct PerformanceCostProvider {
+    func costFor(_ genre: Play.Genre, attendanceCount: Int) throws -> Int {
         var result = 0
         
         switch(genre) {
@@ -47,16 +63,6 @@ func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>
             throw UnknownTypeError.unknownTypeError("new play")
         }
         
-        return result
-    }
-    
-    func volumeCreditsFor(_ genre: Play.Genre, attendanceCount: Int) -> Int {
-        var result = 0
-        result += max(attendanceCount - 30, 0)
-        
-        if (.comedy == genre) {
-            result += Int(round(Double(attendanceCount / 5)))
-        }
         return result
     }
 }
