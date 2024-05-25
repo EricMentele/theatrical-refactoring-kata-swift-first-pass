@@ -2,21 +2,21 @@ protocol LineItemTotal {
     func amountFor(attendanceCount count: Int) -> Int
 }
 
-struct PerformanceCostProvider {
+struct LineItemProvider {
     func cost(for genre: Play.Genre) throws -> LineItemTotal {
         switch(genre) {
         case .tragedy:
-            return Tragedy()
+            return TragedyCost()
         case .comedy:
-            return Comedy()
+            return ComedyCost()
         case .pastoral:
-            return Pastoral()
+            return PastoralCost()
         case .unknown:
             throw UnknownTypeError.unknownTypeError("new play")
         }
     }
     
-    struct Tragedy: LineItemTotal {
+    struct TragedyCost: LineItemTotal {
         func amountFor(attendanceCount count: Int) -> Int {
             let baseVolume = 30
             let exceededBaseVolume = count > baseVolume
@@ -25,7 +25,7 @@ struct PerformanceCostProvider {
         }
     }
     
-    struct Comedy: LineItemTotal {
+    struct ComedyCost: LineItemTotal {
         func amountFor(attendanceCount count: Int) -> Int {
             let baseVolume = 20
             let exceededBaseVolume = count > baseVolume
@@ -34,7 +34,7 @@ struct PerformanceCostProvider {
         }
     }
     
-    struct Pastoral: LineItemTotal {
+    struct PastoralCost: LineItemTotal {
         func amountFor(attendanceCount count: Int) -> Int {
             return 30
         }

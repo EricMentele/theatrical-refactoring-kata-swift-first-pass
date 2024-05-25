@@ -19,7 +19,7 @@ final class PerformanceCostProviderTests: XCTestCase {
         
         try genreBaseCosts.forEach { (genre, expectedCost) in
             self.expect(
-                try PerformanceCostProvider().cost(for: genre),
+                try LineItemProvider().cost(for: genre),
                 withAttendanceCount: genre.baseVolumeAttendanceCount,
                 toBe: expectedCost
             )
@@ -43,7 +43,7 @@ final class PerformanceCostProviderTests: XCTestCase {
         
         try genreAdditionalVolumeCosts.forEach { (genre, expectedCost) in
             self.expect(
-                try PerformanceCostProvider().cost(for: genre),
+                try LineItemProvider().cost(for: genre),
                 withAttendanceCount: genre.additionalVolumeAttendanceCount,
                 toBe: expectedCost
             )
@@ -53,7 +53,7 @@ final class PerformanceCostProviderTests: XCTestCase {
     // MARK: Errors
     
     func test_costFor_throwsNewPlayErrorOnUknownGenre() throws {
-        let sut = PerformanceCostProvider()
+        let sut = LineItemProvider()
         
         XCTAssertThrowsError(try sut.cost(for: .unknown))
     }
