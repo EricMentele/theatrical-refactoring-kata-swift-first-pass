@@ -1,9 +1,9 @@
-protocol PerformanceCost {
+protocol LineItemTotal {
     func amountFor(attendanceCount count: Int) -> Int
 }
 
 struct PerformanceCostProvider {
-    func cost(for genre: Play.Genre) throws -> PerformanceCost {
+    func cost(for genre: Play.Genre) throws -> LineItemTotal {
         switch(genre) {
         case .tragedy:
             return Tragedy()
@@ -16,7 +16,7 @@ struct PerformanceCostProvider {
         }
     }
     
-    struct Tragedy: PerformanceCost {
+    struct Tragedy: LineItemTotal {
         func amountFor(attendanceCount count: Int) -> Int {
             let baseVolume = 30
             let exceededBaseVolume = count > baseVolume
@@ -25,7 +25,7 @@ struct PerformanceCostProvider {
         }
     }
     
-    struct Comedy: PerformanceCost {
+    struct Comedy: LineItemTotal {
         func amountFor(attendanceCount count: Int) -> Int {
             let baseVolume = 20
             let exceededBaseVolume = count > baseVolume
@@ -34,7 +34,7 @@ struct PerformanceCostProvider {
         }
     }
     
-    struct Pastoral: PerformanceCost {
+    struct Pastoral: LineItemTotal {
         func amountFor(attendanceCount count: Int) -> Int {
             return 30
         }

@@ -60,7 +60,7 @@ final class PerformanceCostProviderTests: XCTestCase {
 }
 
 private extension PerformanceCostProviderTests {
-    func expect(_ cost: PerformanceCost, withAttendanceCount count: Int, toBe expectedCost: Int, file: StaticString = #filePath, line: UInt = #line) {
+    func expect(_ cost: LineItemTotal, withAttendanceCount count: Int, toBe expectedCost: Int, file: StaticString = #filePath, line: UInt = #line) {
         XCTAssertEqual(cost.amountFor(attendanceCount: count), expectedCost, "Wrong cost for \(cost) with attendance of \(count)")
     }
 }
