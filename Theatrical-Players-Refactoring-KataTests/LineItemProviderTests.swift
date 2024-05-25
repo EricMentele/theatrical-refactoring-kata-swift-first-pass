@@ -1,7 +1,7 @@
 import XCTest
 @testable import Theatrical_Players_Refactoring_Kata
 
-final class PerformanceCostProviderTests: XCTestCase {
+final class LineItemProviderTests: XCTestCase {
     func test_cost_returnsCorrectPerformanceCost() throws {
         let genreBaseCosts: [(Play.Genre, Int)] = Play.Genre.allCases
             .compactMap {
@@ -59,7 +59,7 @@ final class PerformanceCostProviderTests: XCTestCase {
     }
 }
 
-private extension PerformanceCostProviderTests {
+private extension LineItemProviderTests {
     func expect(_ cost: LineItemTotal, withAttendanceCount count: Int, toBe expectedCost: Int, file: StaticString = #filePath, line: UInt = #line) {
         XCTAssertEqual(cost.amountFor(attendanceCount: count), expectedCost, "Wrong cost for \(cost) with attendance of \(count)")
     }
