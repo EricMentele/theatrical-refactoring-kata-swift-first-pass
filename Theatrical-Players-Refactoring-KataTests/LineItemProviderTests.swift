@@ -2,6 +2,7 @@ import XCTest
 @testable import Theatrical_Players_Refactoring_Kata
 
 final class LineItemProviderTests: XCTestCase {
+    // MARK: - Success
     func test_cost_returnsCorrectPerformanceCost() throws {
         let genreBaseCosts: [(Play.Genre, Int)] = Play.Genre.allCases
             .compactMap {
@@ -50,7 +51,19 @@ final class LineItemProviderTests: XCTestCase {
         }
     }
     
-    // MARK: Errors
+    // MARK: Volume Credits
+    
+    func test_volumeCredits_returnsZeroCreditsWithInsufficientAudienceCount() {
+        let sut = LineItemProvider()
+        let genre: Play.Genre = .tragedy
+        let expected = 0
+
+        let actual = sut.volumeCredits(for: genre).amountFor(attendanceCount: 5)
+        
+        XCTAssertEqual(expected, actual)
+    }
+    
+    // MARK: - Errors
     
     func test_costFor_throwsNewPlayErrorOnUknownGenre() throws {
         let sut = LineItemProvider()

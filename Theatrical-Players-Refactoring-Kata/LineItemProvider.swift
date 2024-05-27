@@ -16,6 +16,12 @@ struct LineItemProvider {
         }
     }
     
+    func volumeCredits(for genre: Play.Genre) -> LineItemTotal {
+        return DefaultVolumeCredits()
+    }
+    
+    // MARK: Line Items
+    
     struct TragedyCost: LineItemTotal {
         func amountFor(attendanceCount count: Int) -> Int {
             let baseVolume = 30
@@ -38,5 +44,13 @@ struct LineItemProvider {
         func amountFor(attendanceCount count: Int) -> Int {
             return 30
         }
+    }
+    
+    struct DefaultVolumeCredits: LineItemTotal {
+        func amountFor(attendanceCount count: Int) -> Int {
+            return 0
+        }
+        
+        
     }
 }
