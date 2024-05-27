@@ -48,7 +48,7 @@ struct LineItemProvider {
     
     struct DefaultVolumeCredits: LineItemTotal {
         func amountFor(attendanceCount count: Int) -> Int {
-            return 0
+            max(count - 30, 0)
         }
         
         

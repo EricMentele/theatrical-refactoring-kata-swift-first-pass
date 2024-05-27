@@ -53,12 +53,22 @@ final class LineItemProviderTests: XCTestCase {
     
     // MARK: Volume Credits
     
-    func test_volumeCredits_returnsZeroCreditsWithInsufficientAudienceCount() {
+    func test_volumeCredits_returnsZeroWithInsufficientAudienceCountForTragedy() {
         let sut = LineItemProvider()
         let genre: Play.Genre = .tragedy
         let expected = 0
 
-        let actual = sut.volumeCredits(for: genre).amountFor(attendanceCount: 5)
+        let actual = sut.volumeCredits(for: genre).amountFor(attendanceCount: genre.baseVolumeAttendanceCount)
+        
+        XCTAssertEqual(expected, actual)
+    }
+    
+    func test_volumeCredits_returnsCorrectAmountForTragedy() {
+        let sut = LineItemProvider()
+        let genre: Play.Genre = .tragedy
+        let expected = 1
+        
+        let actual = sut.volumeCredits(for: genre).amountFor(attendanceCount: genre.additionalVolumeAttendanceCount)
         
         XCTAssertEqual(expected, actual)
     }
