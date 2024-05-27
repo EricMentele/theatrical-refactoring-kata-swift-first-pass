@@ -73,6 +73,16 @@ final class LineItemProviderTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
     
+    func test_volumeCredits_returnsCorrectAmountForComedy() {
+        let sut = LineItemProvider()
+        let genre: Play.Genre = .comedy
+        let expected = 4
+        
+        let actual = sut.volumeCredits(for: genre).amountFor(attendanceCount: genre.additionalVolumeAttendanceCount)
+        
+        XCTAssertEqual(expected, actual)
+    }
+    
     // MARK: - Errors
     
     func test_costFor_throwsNewPlayErrorOnUknownGenre() throws {

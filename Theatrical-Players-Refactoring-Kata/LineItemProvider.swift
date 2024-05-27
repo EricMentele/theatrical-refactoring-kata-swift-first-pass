@@ -17,7 +17,12 @@ struct LineItemProvider {
     }
     
     func volumeCredits(for genre: Play.Genre) -> LineItemTotal {
-        return DefaultVolumeCredits()
+        switch(genre) {
+        case .comedy:
+            ComedyVolumeCredits()
+        case .pastoral, .tragedy, .unknown:
+            DefaultVolumeCredits()
+        }
     }
     
     // MARK: Line Items
@@ -48,9 +53,19 @@ struct LineItemProvider {
     
     struct DefaultVolumeCredits: LineItemTotal {
         func amountFor(attendanceCount count: Int) -> Int {
-            max(count - 30, 0)
+            defaultVolumeCredits(attendance: count)
         }
-        
-        
+    }
+    
+    struct ComedyVolumeCredits: LineItemTotal {
+        func amountFor(attendanceCount count: Int) -> Int {
+            defaultVolumeCredits(attendance: count) + Int(round(Double(count / 5)))
+        }
+    }
+}
+
+private extension LineItemTotal {
+    func defaultVolumeCredits(attendance count: Int) -> Int {
+        max(count - 30, 0)
     }
 }
