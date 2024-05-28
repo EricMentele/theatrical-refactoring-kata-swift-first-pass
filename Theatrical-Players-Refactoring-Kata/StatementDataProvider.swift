@@ -13,7 +13,7 @@ func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>
                 try play(for: performance.playID).genre,
                 attendanceCount: performance.audience
             ),
-            volumeCredits: volumeCreditsFor(
+            volumeCredits: try volumeCreditsFor(
                 try play(for: performance.playID).genre,
                 attendanceCount: performance.audience
             ),
@@ -32,14 +32,8 @@ func generateStatementData(_ invoice: Invoice, _ plays: Dictionary<String, Play>
         try LineItemProvider().cost(for: genre).amountFor(attendanceCount: attendanceCount)
     }
     
-    func volumeCreditsFor(_ genre: Play.Genre, attendanceCount: Int) -> Int {
-        var result = 0
-        result += max(attendanceCount - 30, 0)
-        
-        if (.comedy == genre) {
-            result += Int(round(Double(attendanceCount / 5)))
-        }
-        return result
+    func volumeCreditsFor(_ genre: Play.Genre, attendanceCount: Int) throws -> Int {
+        LineItemProvider().volumeCredits(for: genre).amountFor(attendanceCount: attendanceCount)
     }
 }
 
