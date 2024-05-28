@@ -53,13 +53,15 @@ final class LineItemProviderTests: XCTestCase {
     
     // MARK: Volume Credits
     
-    func test_volumeCredits_returnsZeroWithInsufficientAudienceCountForDefaultGenres() {
+    func test_volumeCredits_returnsCorrectAmountWithBaseAudienceCount() {
         let genresForVolumeCredits: [(Play.Genre, Int)] = Play.Genre.allCases
             .compactMap {
                 switch $0 {
                 case .tragedy, .pastoral:
                     return ($0, 0)
-                case .comedy, .unknown:
+                case .comedy:
+                    return ($0, 6)
+                case .unknown:
                     return nil
                 }
             }
