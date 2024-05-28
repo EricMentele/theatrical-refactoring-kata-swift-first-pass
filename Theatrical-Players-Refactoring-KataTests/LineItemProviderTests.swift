@@ -21,7 +21,7 @@ final class LineItemProviderTests: XCTestCase {
         try genreBaseCosts.forEach { (genre, expectedCost) in
             self.expect(
                 try LineItemProvider().cost(for: genre),
-                withAttendanceCount: genre.baseVolumeAttendanceCount,
+                withAttendanceCount: genre.costBaseVolumeAttendanceCount,
                 toBe: expectedCost
             )
         }
@@ -53,14 +53,24 @@ final class LineItemProviderTests: XCTestCase {
     
     // MARK: Volume Credits
     
-    func test_volumeCredits_returnsZeroWithInsufficientAudienceCountForTragedy() {
-        let sut = LineItemProvider()
-        let genre: Play.Genre = .tragedy
-        let expected = 0
-
-        let actual = sut.volumeCredits(for: genre).amountFor(attendanceCount: genre.baseVolumeAttendanceCount)
+    func test_volumeCredits_returnsZeroWithInsufficientAudienceCountForDefaultGenres() {
+        let genresForVolumeCredits: [(Play.Genre, Int)] = Play.Genre.allCases
+            .compactMap {
+                switch $0 {
+                case .tragedy, .pastoral:
+                    return ($0, 0)
+                case .comedy, .unknown:
+                    return nil
+                }
+            }
         
-        XCTAssertEqual(expected, actual)
+        genresForVolumeCredits.forEach { (genre, expectedAmount) in
+            self.expect(
+                LineItemProvider().volumeCredits(for: genre),
+                withAttendanceCount: 30,
+                toBe: expectedAmount
+            )
+        }
     }
     
     func test_volumeCredits_returnsCorrectAmountForTragedy() {
@@ -93,13 +103,13 @@ final class LineItemProviderTests: XCTestCase {
 }
 
 private extension LineItemProviderTests {
-    func expect(_ cost: LineItemTotal, withAttendanceCount count: Int, toBe expectedCost: Int, file: StaticString = #filePath, line: UInt = #line) {
-        XCTAssertEqual(cost.amountFor(attendanceCount: count), expectedCost, "Wrong cost for \(cost) with attendance of \(count)")
+    func expect(_ lineItemTotal: LineItemTotal, withAttendanceCount count: Int, toBe amount: Int, file: StaticString = #filePath, line: UInt = #line) {
+        XCTAssertEqual(lineItemTotal.amountFor(attendanceCount: count), amount, "Wrong cost for \(lineItemTotal) with attendance of \(count)")
     }
 }
 
 private extension Play.Genre {
-    var baseVolumeAttendanceCount: Int {
+    var costBaseVolumeAttendanceCount: Int {
         switch self {
         case .tragedy:
             return 30
@@ -113,6 +123,6 @@ private extension Play.Genre {
     }
     
     var additionalVolumeAttendanceCount: Int {
-        baseVolumeAttendanceCount + 1
+        costBaseVolumeAttendanceCount + 1
     }
 }
