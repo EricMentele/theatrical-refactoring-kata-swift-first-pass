@@ -17,8 +17,8 @@
 		8C46E75B2BFBD99700127562 /* PerformanceCharge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46E75A2BFBD99700127562 /* PerformanceCharge.swift */; };
 		8C46E75D2BFBDED800127562 /* StatementDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46E75C2BFBDED800127562 /* StatementDataProvider.swift */; };
 		8C46E75F2BFBF1E500127562 /* StatementData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46E75E2BFBF1E500127562 /* StatementData.swift */; };
-		8C46E7632BFE3C6600127562 /* PerformanceCostProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46E7622BFE3C6600127562 /* PerformanceCostProviderTests.swift */; };
-		8C46E7652BFE73BC00127562 /* PerformanceCostProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46E7642BFE73BC00127562 /* PerformanceCostProvider.swift */; };
+		8C46E7632BFE3C6600127562 /* LineItemProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46E7622BFE3C6600127562 /* LineItemProviderTests.swift */; };
+		8C46E7652BFE73BC00127562 /* LineItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46E7642BFE73BC00127562 /* LineItemProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,8 +45,8 @@
 		8C46E75A2BFBD99700127562 /* PerformanceCharge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceCharge.swift; sourceTree = "<group>"; };
 		8C46E75C2BFBDED800127562 /* StatementDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatementDataProvider.swift; sourceTree = "<group>"; };
 		8C46E75E2BFBF1E500127562 /* StatementData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatementData.swift; sourceTree = "<group>"; };
-		8C46E7622BFE3C6600127562 /* PerformanceCostProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceCostProviderTests.swift; sourceTree = "<group>"; };
-		8C46E7642BFE73BC00127562 /* PerformanceCostProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceCostProvider.swift; sourceTree = "<group>"; };
+		8C46E7622BFE3C6600127562 /* LineItemProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineItemProviderTests.swift; sourceTree = "<group>"; };
+		8C46E7642BFE73BC00127562 /* LineItemProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineItemProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +98,7 @@
 				104F7D94232831E000665957 /* StatementPrinter.swift */,
 				8C46E75C2BFBDED800127562 /* StatementDataProvider.swift */,
 				8C46E75E2BFBF1E500127562 /* StatementData.swift */,
-				8C46E7642BFE73BC00127562 /* PerformanceCostProvider.swift */,
+				8C46E7642BFE73BC00127562 /* LineItemProvider.swift */,
 			);
 			path = "Theatrical-Players-Refactoring-Kata";
 			sourceTree = "<group>";
@@ -108,7 +108,7 @@
 			children = (
 				104F7D8223282F2900665957 /* StatementPrinterTests.swift */,
 				104F7D8423282F2900665957 /* Info.plist */,
-				8C46E7622BFE3C6600127562 /* PerformanceCostProviderTests.swift */,
+				8C46E7622BFE3C6600127562 /* LineItemProviderTests.swift */,
 			);
 			path = "Theatrical-Players-Refactoring-KataTests";
 			sourceTree = "<group>";
@@ -228,7 +228,7 @@
 				104F7D932328312700665957 /* Invoice.swift in Sources */,
 				104F7D95232831E000665957 /* StatementPrinter.swift in Sources */,
 				8C46E75F2BFBF1E500127562 /* StatementData.swift in Sources */,
-				8C46E7652BFE73BC00127562 /* PerformanceCostProvider.swift in Sources */,
+				8C46E7652BFE73BC00127562 /* LineItemProvider.swift in Sources */,
 				104F7D8F2328305A00665957 /* Play.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -237,7 +237,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8C46E7632BFE3C6600127562 /* PerformanceCostProviderTests.swift in Sources */,
+				8C46E7632BFE3C6600127562 /* LineItemProviderTests.swift in Sources */,
 				104F7D8323282F2900665957 /* StatementPrinterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
