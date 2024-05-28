@@ -75,6 +75,28 @@ final class LineItemProviderTests: XCTestCase {
         }
     }
     
+    func test_volumeCredits_returnsCorrectAmountUponExceedingBaseAudienceCount() {
+        let genresForVolumeCredits: [(Play.Genre, Int)] = Play.Genre.allCases
+            .compactMap {
+                switch $0 {
+                case .tragedy, .pastoral:
+                    return ($0, 1)
+                case .comedy:
+                    return ($0, 7)
+                case .unknown:
+                    return nil
+                }
+            }
+        
+        genresForVolumeCredits.forEach { (genre, expectedAmount) in
+            self.expect(
+                LineItemProvider().volumeCredits(for: genre),
+                withAttendanceCount: 31,
+                toBe: expectedAmount
+            )
+        }
+    }
+    
     func test_volumeCredits_returnsCorrectAmountForTragedy() {
         let sut = LineItemProvider()
         let genre: Play.Genre = .tragedy
